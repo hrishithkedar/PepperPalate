@@ -134,11 +134,14 @@ const Recipe = () => {
         </p>
 
         <div className="flex sub mb-2">
-          <div className="text-xs mt-6 border-r-2 w-40 pr-2">Submitted by {usr}</div>
-          <Svg_3 width="5em" height="2em" className="mt-4 ml-4" />
+          <div className="text-xs mt-6 border-r-2 w-46 pr-2">Submitted by {usr}</div>
+          <div className="flex">
+            <Svg_3 width="5em" height="1em" className="mt-4 ml-4" />
           <svg className="mt-6 p-0" xmlns="http://www.w3.org/2000/svg" width="5em" height="2em" viewBox="0 0 120 55">
             <path fill="red" d="m23 12l-2.44-2.78l.34-3.68l-3.61-.82l-1.89-3.18L12 3L8.6 1.54L6.71 4.72l-3.61.81l.34 3.68L1 12l2.44 2.78l-.34 3.69l3.61.82l1.89 3.18L12 21l3.4 1.46l1.89-3.18l3.61-.82l-.34-3.68zm-13 5l-4-4l1.41-1.41L10 14.17l6.59-6.59L18 9z" />
           </svg>
+          </div>
+          
         </div>
 
         <div className="recipe-image">

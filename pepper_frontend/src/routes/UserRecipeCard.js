@@ -34,9 +34,9 @@ const UserRecipeCard = ({ imgSrc, description, author, title, id }) => {
     }
 
     return (
-        <div className="box card border-2 mt-8 mr-4 rounded-xl w-56 max-h-[400px] shadow-md flex flex-col pt-0 pb-0 hover:shadow-xl transition-shadow duration-300">
+        <div className="box card border-2 mt-8 mr-4 rounded-xl w-60 max-h-[410px] shadow-md flex flex-col pt-0 pb-0 hover:shadow-xl transition-shadow duration-300">
             <img className="w-full rounded-t-xl h-[142px] object-cover" src={imgSrc} alt={`${title} recipe`} />
-            <div className="p-4 flex flex-col pb-0">
+            <div className="p-2 flex flex-col pb-0">
                 <div className="title font-bold text-lg mr-2 mb-2">
                     {title}
                 </div>
@@ -50,7 +50,7 @@ const UserRecipeCard = ({ imgSrc, description, author, title, id }) => {
                         <button className="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors duration-300">View</button>
                     </a>
                 </div>
-                <p className="text-sm text-gray-500 mt-auto font-medium">By {author}</p>
+                <p className="text-sm text-gray-500 mt-auto ml-auto font-medium">By {author}</p>
             </div>
         </div>
     );
