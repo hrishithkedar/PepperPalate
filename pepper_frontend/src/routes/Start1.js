@@ -6,7 +6,7 @@ import { Svg_1, Svg_2 } from "./Svg";
 import OgNav from "./OgNav";
 import { useCookies } from "react-cookie";
 
-const Start_1 = () => {
+const start_1 = () => {
     const[cookie,setCookie]=useCookies(["token"]);
     return (
         <div className="content flex flex-col h-screen w-screen">
@@ -74,4 +74,4 @@ const arr = [
 
     }
 ]
-export default Start_1;
+export default start_1;
