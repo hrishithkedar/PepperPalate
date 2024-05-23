@@ -18,7 +18,7 @@ function App() {
 
       <Route path="/" element={<Start_1/>} />
       <Route path="/home" element={<Start_1 />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="https://pepperpalate-frontend.onrender.com/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/recipes" element={<Search />} />
       <Route path="/post" element={<Post/>} />
