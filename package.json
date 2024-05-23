@@ -1,0 +1,16 @@
+{
+  "name": "pepperdeployment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "install-server": "cd pepper_backend && npm install",
+    "start-server": "cd pepper_backend && node index.js",
+    "install-client": "cd pepper_frontend && npm install",
+    "build-client": "cd pepper_frontend && npm run build",
+    "start-client": "cd pepper_frontend && npm run start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

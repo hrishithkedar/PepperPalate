@@ -1,0 +1,9 @@
+.image{
+    background-image: url("https://img.freepik.com/free-photo/clipboard-mexican-sauces_23-2147740781.jpg?t=st=1716178362~exp=1716181962~hmac=089eb77036d8fccf696e6d5df3d952215beece7e2ba0d7049b04e6b38d717062&w=996");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    width: 100%;
+  }

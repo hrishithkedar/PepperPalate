@@ -1,0 +1,69 @@
+
+@keyframes moveFromLeft {
+    from {
+        transform: translateX(-200%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes moveFromTop {
+    from {
+        transform: translateY(-400%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes moveFromRight {
+    from {
+        transform: translateX(400%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+#signup {
+    animation: moveFromLeft 1s ease;
+}
+
+
+#login {
+    animation: moveFromRight 1s ease;
+}
+
+.shadow-button {
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.shadow-button:hover {
+    box-shadow: 0px 12px 20px rgba(0, 0, 0, 0.2);
+    transform: translateY(-3px);
+}
+
+.shadow-button:active {
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(1px);
+}
+.box {
+   
+    transition: box-shadow 0.3s, transform 0.3s;
+  }
+  
+  .box:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5); 
+    transform: translateY(-10px); 
+  }
+
+  @media screen and (max-width:600px){
+    .content{
+        flex-direction: column;
+    }
+    .cards{
+        flex-direction: column;
+    }
+  }
