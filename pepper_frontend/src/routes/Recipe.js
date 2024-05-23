@@ -23,8 +23,8 @@ const Recipe = () => {
   const [reviews,setReview]=useState([]);
   const [ratings,setRatings]=useState({});
   const [user,setUser]=useState({});
-  const url = `https://pepperpalate.onrender.com/recipes/show/${recipeID}`;
-  let ratingUrl=`https://pepperpalate.onrender.com/recipes/${recipeID}/ratings`
+  const url = `https://pepperpalate-backend.onrender.com/recipes/show/${recipeID}`;
+  let ratingUrl=`https://pepperpalate-backend.onrender.com/recipes/${recipeID}/ratings`
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -63,7 +63,7 @@ const Recipe = () => {
     };
     const fetchUser = async () => {
       let token=cookie.token;
-      const res = await fetch("https://pepperpalate.onrender.com/auth/getUser", {
+      const res = await fetch("https://pepperpalate-backend.onrender.com/auth/getUser", {
           method: "GET",
           headers: {
               "Content-Type": "application/json",
@@ -89,7 +89,7 @@ const Recipe = () => {
   console.log(recipe)
   console.log(ratings)
   
-  let reviewUrl=`https://pepperpalate.onrender.com/review/${recipeID}`
+  let reviewUrl=`https://pepperpalate-backend.onrender.com/review/${recipeID}`
   
   const onPostReview=async()=>{
     const body={rating,body:postBody};

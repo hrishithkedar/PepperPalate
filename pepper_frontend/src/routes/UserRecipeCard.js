@@ -8,7 +8,7 @@ const UserRecipeCard = ({ imgSrc, description, author, title, id }) => {
     const [cookie,setCookie]=useCookies(["token"]);
 
     const OnDelete = async () => {
-        let dltUrl = `https://pepperpalate.onrender.com/recipes/${id}`;
+        let dltUrl = `https://pepperpalate-backend.onrender.com/recipes/${id}`;
         const token=cookie.token;
         const res = await fetch(dltUrl, {
             method: "DELETE",

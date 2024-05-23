@@ -11,7 +11,7 @@ const SignedNavbar = () => {
 
     useEffect(() => {
         const fetchNavUser = async () => {
-            const res = await fetch("https://pepperpalate.onrender.com/auth/getUser", {
+            const res = await fetch("https://pepperpalate-backend.onrender.com/auth/getUser", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

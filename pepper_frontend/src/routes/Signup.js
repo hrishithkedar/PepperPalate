@@ -51,7 +51,7 @@ const Signup = () => {
         }
 
         const body = { email, username, password };
-        const res = await fetch("https://pepperpalate.onrender.com/auth/signup", {
+        const res = await fetch("https://pepperpalate-backend.onrender.com/auth/signup", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

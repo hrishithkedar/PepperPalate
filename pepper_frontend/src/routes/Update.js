@@ -129,7 +129,7 @@ const Update = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const url = `https://pepperpalate.onrender.com/recipes/show/${recipeID}`;
+                const url = `https://pepperpalate-backend.onrender.com/recipes/show/${recipeID}`;
                 const response = await fetch(url, {
                     method: "get",
                     headers: {
@@ -227,7 +227,7 @@ const Update = () => {
                 }
                 console.log(body_sent);
                 const token = cookie.token;
-                const url=`https://pepperpalate.onrender.com/recipes/${recipeID}/update`
+                const url=`https://pepperpalate-backend.onrender.com/recipes/${recipeID}/update`
                 const res = await fetch(url, {
                     method: "PUT",
                     headers: {

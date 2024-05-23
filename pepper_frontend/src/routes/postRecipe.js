@@ -175,7 +175,7 @@ const Post = () => {
                 }
                 console.log(body_sent);
                 const token = cookie.token;
-                const res = await fetch("https://pepperpalate.onrender.com/recipes", {
+                const res = await fetch("https://pepperpalate-backend.onrender.com/recipes", {
                     method: "post",
                     headers: {
                         "Content-Type": "application/json",

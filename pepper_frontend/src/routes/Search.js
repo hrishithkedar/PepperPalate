@@ -8,7 +8,7 @@ const Search = () => {
     const [arr, setArr] = useState([]);
 
     const onSearch = async () => {
-        let url = `https://pepperpalate.onrender.com/recipes/${search}`;
+        let url = `https://pepperpalate-backend.onrender.com/recipes/${search}`;
 
         try {
             const res = await fetch(url, {
