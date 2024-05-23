@@ -8,7 +8,7 @@ const Search = () => {
     const [arr, setArr] = useState([]);
 
     const onSearch = async () => {
-        let url = `http://localhost:8080/recipes/${search}`;
+        let url = `https://pepperpalate.onrender.com/recipes/${search}`;
 
         try {
             const res = await fetch(url, {

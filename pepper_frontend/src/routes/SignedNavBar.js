@@ -12,7 +12,7 @@ const SignedNavbar = () => {
 
         const fetchNavUser = async () => {
 
-            const res = await fetch("http://localhost:8080/auth/getUser", {
+            const res = await fetch("https://pepperpalate.onrender.com/auth/getUser", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

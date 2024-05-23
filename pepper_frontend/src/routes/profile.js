@@ -35,7 +35,7 @@ const Profile = () => {
         setImgSrc(newImgSrc);
 
         const body = { url: newImgSrc };
-        const bacRes = await fetch("http://localhost:8080/auth/profile", {
+        const bacRes = await fetch("https://pepperpalate.onrender.com/auth/profile", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -52,7 +52,7 @@ const Profile = () => {
     };
 
     const fetchUser = async () => {
-        const res = await fetch("http://localhost:8080/auth/getUser", {
+        const res = await fetch("https://pepperpalate.onrender.com/auth/getUser", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -65,7 +65,7 @@ const Profile = () => {
     };
 
     const fetchRecipes = async () => {
-        const recipeUrl = `http://localhost:8080/recipes/userRecipes`;
+        const recipeUrl = `https://pepperpalate.onrender.com/recipes/userRecipes`;
         const res = await fetch(recipeUrl, {
             method: "GET",
             headers: {
