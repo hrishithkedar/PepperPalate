@@ -123,6 +123,9 @@ export function PostDiv_3({ numOfIngredients, ingredients, setNumOfIngredients, 
                                 <option value="Cup">Cup</option>
                                 <option value="ml">ml(Millilitre)</option>
                                 <option value="L">L(litre)</option>
+                                <option value="units">Units</option>
+                                <option value="pinch">pinch</option>
+                                <option value="few drops">few drops</option>
                             </select>
                             <input
                                 type="text"
