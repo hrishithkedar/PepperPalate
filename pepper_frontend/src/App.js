@@ -1,7 +1,7 @@
 import {BrowserRouter,Routes,Route} from "react-router-dom"
 import Login from "./routes/Login";
 import Signup from "./routes/Signup";
-import start_1 from "./routes/Start1";
+import Start_1 from "./routes/Start1";
 import Search from "./routes/Search";
 import Post from "./routes/postRecipe";
 import Recipe from "./routes/Recipe";
@@ -15,7 +15,7 @@ function App() {
     <Routes>
 
       <Route path="/" element={<Search/>} />
-      <Route path="/home" element={<start_1 />} />
+      <Route path="/home" element={<Start_1 />} />
       <Route path="https://pepperpalate-frontend.onrender.com/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/recipes" element={<Search />} />
