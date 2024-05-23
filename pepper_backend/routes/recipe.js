@@ -95,7 +95,7 @@ Router.get('/:recipe', async (req, res) => {
     return res.status(200).json(foundRecipe);
   } catch (error) {
     console.error('Error fetching recipes:', error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ error: "No Recipes Found" });
   }
 });
 
