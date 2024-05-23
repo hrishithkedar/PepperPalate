@@ -1,36 +1,59 @@
+import React, { useState } from "react";
 import { Svg_3 } from "./Svg";
-import "./nav.css"
+import "./nav.css";
 import { useCookies } from "react-cookie";
+
 const Navbar = () => {
-    const[cookie,setCookie]=useCookies(["token"]);
+    const [cookie, setCookie] = useCookies(["token"]);
+    const [isDropdownOpen, setDropdownOpen] = useState(false);
+    const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+    const toggleDropdown = () => {
+        setDropdownOpen(!isDropdownOpen);
+    };
+
+    const toggleMobileMenu = () => {
+        setMobileMenuOpen(!isMobileMenuOpen);
+    };
 
 
     return (
         
-        <nav class="nav w-screen border-t-0 bg-white border-gray-200 dark:bg-gray-900 bg-white dark:bg-gray-900 fixed md:w-screen z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
-            <div class="w-screen-xl flex flex-wrap items-center justify-between  mb-0 pl-2">
-                <a href="/home" class="flex items-center space-x-3 rtl:space-x-reverse">
+
+<nav className="nav w-screen bg-white border-b border-gray-200 dark:bg-gray-900 dark:border-gray-600 fixed z-20 top-0 start-0">
+            <div className="w-screen flex items-center justify-between px-4">
+                <a href="/home" className="flex items-center space-x-3">
                     <Svg_3 />
                 </a>
-                <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-default" aria-expanded="false">
-                    <span class="sr-only">Open main menu</span>
-                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15" />
-                    </svg>
-                </button>
-                <div class="hidden w-full md:block md:w-auto mr-8" id="navbar-default">
-                    <ul class="font-bold flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-16 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700 md:mr-4">
-                        <li>
-                            <a href="/home" class="block py-2 px-3 text-gray-900  rounded md:bg-transparent  md:p-0 hover:text-[#fa1111]">Home</a>
-                        </li>
-                        <li>
-                            <a href="/recipes" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-[#fa1111] md:p-0 dark:text-white md:dark:hover:text-[#fa1111] dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Recipes</a>
-                        </li>
-                    </ul>
+                <div className="flex items-center space-x-4 ml-auto">
+                    <div className="hidden md:flex space-x-4 font-bold">
+                        <a href="/home" className="block py-2 px-3 text-gray-900 rounded hover:text-[#fa1111]">Home</a>
+                        <a href="/recipes" className="block py-2 px-3 text-gray-900 rounded hover:text-[#fa1111]">Recipes</a>
+                    </div>
+                    <button 
+                        data-collapse-toggle="navbar-user" 
+                        type="button" 
+                        className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" 
+                        aria-controls="navbar-user" 
+                        aria-expanded={isMobileMenuOpen} 
+                        onClick={toggleMobileMenu}
+                    >
+                        <span className="sr-only">Open main menu</span>
+                        <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15" />
+                        </svg>
+                    </button>
                 </div>
             </div>
+            {isMobileMenuOpen && (
+                <div className="md:hidden" id="navbar-user">
+                    <a href="/home" className="block py-2 px-3 text-gray-900 rounded hover:text-[#fa1111]">Home</a>
+                    <a href="/recipes" className="block py-2 px-3 text-gray-900 rounded hover:text-[#fa1111]">Recipes</a>
+                </div>
+            )}
         </nav>
-    )
-}
+
+    );
+};
 
 export default Navbar;

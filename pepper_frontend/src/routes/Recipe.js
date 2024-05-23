@@ -270,7 +270,7 @@ const Recipe = () => {
    
                </div>
    
-               <button onClick={onPostReview} className="border-2 pl-2 pr-2 border-black mt-2 ml-[23rem]">Post</button>
+               <button onClick={onPostReview} className="border-2 pl-2 pr-2 border-black mt-4">Post</button>
    
                
    
@@ -280,13 +280,13 @@ const Recipe = () => {
           }
           
 
-          <div className="all-reviews w-2/5 flex flex-col mt-4">
+          <div className="all-reviews flex flex-col mt-4">
 
 
             {
               reviews ? reviews.map((el)=>{
                 return(
-                  <div className="review-body border-b-2">
+                  <div className="review-body border-b-2 pb-4 pt-4 w-full">
                   <div className="usr flex space-x-2 items-center">
                     <img className="w-8 h-8 rounded-full" src={el.user?.profile || "https://media.istockphoto.com/id/1495088043/vector/user-profile-icon-avatar-or-person-icon-profile-picture-portrait-symbol-default-portrait.jpg?s=612x612&w=0&k=20&c=dhV2p1JwmloBTOaGAtaA3AW1KSnjsdMt7-U_3EZElZ0="} />
                     <p className="font-bold">{el.user?.username || ""}</p>
