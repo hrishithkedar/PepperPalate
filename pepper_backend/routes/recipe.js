@@ -158,9 +158,9 @@ Router.post('/', passport.authenticate('jwt', { session: false }), async (req, r
   }
 });
 
-Router.put('/:recipeID/update', passport.authenticate('jwt', { session: false }), async (req, res) => {
+Router.patch('/:recipeID/update', passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
-    const { title, imgSrc, cookTime, prepTime, Servings, cardDescription, description, sts_process, noOfIngredients, ingredients, nutrition } = req.body;
+    const { title, imgSrc, cookTime, prepTime, Servings, cardDescription, description, sts_process, noOfIngredients, nutrition } = req.body;
     const { recipeID } = req.params;
 
     const foundRecipe = await Recipe.findById(recipeID);
@@ -174,7 +174,7 @@ Router.put('/:recipeID/update', passport.authenticate('jwt', { session: false })
     }
 
     const updatedRecipe = await Recipe.findByIdAndUpdate(recipeID, {
-      title, imgSrc, cookTime, prepTime, Servings, cardDescription, description, sts_process, noOfIngredients, ingredients, nutrition: foundNutri._id, user: req.user._id
+      title, imgSrc, cookTime, prepTime, Servings, cardDescription, description, sts_process, noOfIngredients, nutrition: foundNutri._id, user: req.user._id
     }, { new: true });
 
     if (!updatedRecipe) {
