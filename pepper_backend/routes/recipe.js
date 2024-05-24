@@ -99,6 +99,22 @@ Router.get('/:recipe', async (req, res) => {
   }
 });
 
+Router.get('/', async (req, res) => {
+  try {
+    const recentRecipes = await Recipe.find({})
+      .sort({ createdAt: -1 }) 
+      .limit(8); 
+
+    if (!recentRecipes || recentRecipes.length === 0) {
+      return res.status(404).json({ error: "No recipes found" });
+    }
+
+    return res.status(200).json(recentRecipes);
+  } catch (error) {
+    console.error('Error fetching recent recipes:', error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 Router.get('/show/:recipeID', async (req, res) => {
   try {
     const { recipeID } = req.params;

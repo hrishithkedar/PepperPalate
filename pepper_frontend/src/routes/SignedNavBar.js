@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Svg_3 } from './Svg';
 import { useCookies } from 'react-cookie';
+import { useNavigate } from "react-router-dom";
 
 const SignedNavbar = () => {
     const [isDropdownOpen, setDropdownOpen] = useState(false);
     const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [user, setUser] = useState({});
     const [cookie, setCookie, removeCookie] = useCookies(["token"]);
+    const navigate = useNavigate();
+
     let token = cookie.token;
 
     useEffect(() => {
@@ -37,6 +40,7 @@ const SignedNavbar = () => {
     const onLogOut = () => {
         removeCookie('token', { path: '/' });
         alert("You are successfully Logged Out!");
+        navigate('/home')
     };
 
     let profileUrl = `/profile/${user._id}`;
