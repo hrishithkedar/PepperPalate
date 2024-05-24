@@ -41,7 +41,7 @@ const UserRecipeCard = ({ imgSrc, description, author, title, id }) => {
                     {title}
                 </div>
                 <p className="mb-2 text-gray-700">{description}</p>
-                <div className="flex space-x-2 mb-2">
+                <div className="flex space-x-2 mb-2 mt-auto">
                     <a href={updateUrl}>
                         <button className="px-2 py-1 bg-cyan-500 text-white rounded hover:bg-cyan-600 transition-colors duration-300">Update</button>
                     </a>
@@ -50,7 +50,6 @@ const UserRecipeCard = ({ imgSrc, description, author, title, id }) => {
                         <button className="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors duration-300">View</button>
                     </a>
                 </div>
-                <p className="text-sm text-gray-500 mt-auto ml-auto font-medium">By {author}</p>
             </div>
         </div>
     );

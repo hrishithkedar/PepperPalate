@@ -5,7 +5,7 @@ const RecipeCard = ({ imgSrc, description,author,title,id }) => {
     }
     return (
         <a href={url}>
-            <div className="box card border-2 mt-8 mr-4 rounded-xl  w-56 max-h-[336px] shadow-md flex flex-col pt-0 pb-0">
+            <div className="box card border-2 mt-8 mr-4 rounded-xl  w-56 max-h-[350px] shadow-md flex flex-col pt-0 pb-0">
             <img className="w-full rounded-t-xl h-[142px]" src={imgSrc} />
             <div className="p-4 flex flex-col  pb-0">
                 <div className="title font-bold text-lg mr-2 mb-2">
