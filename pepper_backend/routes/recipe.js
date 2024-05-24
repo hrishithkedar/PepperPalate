@@ -103,7 +103,8 @@ Router.get('/', async (req, res) => {
   try {
     const recentRecipes = await Recipe.find({})
       .sort({ createdAt: -1 }) 
-      .limit(8); 
+      .limit(8)
+      .populate('user'); 
 
     if (!recentRecipes || recentRecipes.length === 0) {
       return res.status(404).json({ error: "No recipes found" });
