@@ -3,6 +3,7 @@ import OgNav from "./OgNav";
 import { useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import UserRecipeCard from "./UserRecipeCard";
+import BACK_URL from '../config.js'
 
 const Profile = () => {
     const { userID } = useParams();
@@ -35,7 +36,7 @@ const Profile = () => {
         setImgSrc(newImgSrc);
 
         const body = { url: newImgSrc };
-        const bacRes = await fetch("https://pepperpalate-backend.onrender.com/auth/profile", {
+        const bacRes = await fetch(`${BACK_URL}/auth/profile`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -52,7 +53,7 @@ const Profile = () => {
     };
 
     const fetchUser = async () => {
-        const res = await fetch("https://pepperpalate-backend.onrender.com/auth/getUser", {
+        const res = await fetch(`${BACK_URL}/auth/getUser`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -65,7 +66,7 @@ const Profile = () => {
     };
 
     const fetchRecipes = async () => {
-        const recipeUrl = `https://pepperpalate-backend.onrender.com/recipes/userRecipes`;
+        const recipeUrl = `${BACK_URL}/recipes/userRecipes`;
         const res = await fetch(recipeUrl, {
             method: "GET",
             headers: {

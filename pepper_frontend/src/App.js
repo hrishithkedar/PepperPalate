@@ -11,9 +11,7 @@ import Profile from "./routes/profile";
 function App() {
   return (
     <BrowserRouter>
-    
     <Routes>
-
       <Route path="/" element={<Start_1/>} />
       <Route path="/home" element={<Start_1 />} />
       <Route path="/login" element={<Login />} />
@@ -23,12 +21,7 @@ function App() {
       <Route path="/recipes/:recipeID/update" element={<Update />} />
       <Route path="/recipes/:recipeID" element={<Recipe />} />
       <Route path="/profile/:userID" element={<Profile />} />
-    
-      
-    </Routes>
-    
-    
-    
+    </Routes> 
     </BrowserRouter>
   );
 }

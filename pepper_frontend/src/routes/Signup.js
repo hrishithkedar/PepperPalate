@@ -5,7 +5,7 @@ import "./Signup.css";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import OgNav from "./OgNav";
-
+import BACK_URL from '../config.js'
 const Signup = () => {
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
@@ -51,7 +51,7 @@ const Signup = () => {
         }
 
         const body = { email, username, password };
-        const res = await fetch("https://pepperpalate-backend.onrender.com/auth/signup", {
+        const res = await fetch(`${BACK_URL}/auth/signup`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

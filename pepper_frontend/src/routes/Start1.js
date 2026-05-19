@@ -7,12 +7,12 @@ import OgNav from "./OgNav";
 import { useCookies } from "react-cookie";
 import { useEffect } from "react";
 import { useState } from "react";
-
+import BACK_URL from '../config.js'
 const Start_1 = () => {
     const [arr,setArr]=useState([]);
     useEffect(()=>{
         const fetchRecent=async()=>{
-            const res=await fetch("https://pepperpalate-backend.onrender.com/recipes",{
+            const res=await fetch(`${BACK_URL}/recipes`,{
                 method:"GET",
                 headers:{
                     "Content-Type":"application/json"

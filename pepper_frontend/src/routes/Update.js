@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { Link, useNavigate } from "react-router-dom";
 import OgNav from "./OgNav";
+import BACK_URL from '../config.js'
 const Update = () => {
     const navigate = useNavigate();
     const [index, setIndex] = useState(0);
@@ -129,7 +130,7 @@ const Update = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const url = `https://pepperpalate-backend.onrender.com/recipes/show/${recipeID}`;
+                const url = `${BACK_URL}/recipes/show/${recipeID}`;
                 const response = await fetch(url, {
                     method: "get",
                     headers: {
@@ -227,7 +228,7 @@ const Update = () => {
                 }
                 console.log(body_sent);
                 const token = cookie.token;
-                const url=`https://pepperpalate-backend.onrender.com/recipes/${recipeID}/update`
+                const url=`${BACK_URL}/recipes/${recipeID}/update`
                 const res = await fetch(url, {
                     method: "PUT",
                     headers: {

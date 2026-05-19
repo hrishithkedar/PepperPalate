@@ -5,6 +5,7 @@ import { PostDiv_1, PostDiv_2, PostDiv_3, PostDiv_4, PostDiv_5 } from "./PostDiv
 import { useState } from "react";
 import { useCookies } from "react-cookie";
 import { Link, useNavigate } from "react-router-dom";
+import BACK_URL from '../config.js'
 import OgNav from "./OgNav";
 const Post = () => {
     const navigate=useNavigate();
@@ -175,7 +176,7 @@ const Post = () => {
                 }
                 console.log(body_sent);
                 const token = cookie.token;
-                const res = await fetch("https://pepperpalate-backend.onrender.com/recipes", {
+                const res = await fetch(`${BACK_URL}/recipes`, {
                     method: "post",
                     headers: {
                         "Content-Type": "application/json",

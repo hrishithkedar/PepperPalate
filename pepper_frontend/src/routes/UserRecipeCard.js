@@ -1,14 +1,13 @@
-
 import React from 'react';
 import { useCookies } from 'react-cookie';
-
+import BACK_URL from '../config.js'
 const UserRecipeCard = ({ imgSrc, description, author, title, id }) => {
     const url = `/recipes/${id}`;
     const updateUrl = `/recipes/${id}/update`;
     const [cookie,setCookie]=useCookies(["token"]);
 
     const OnDelete = async () => {
-        let dltUrl = `https://pepperpalate-backend.onrender.com/recipes/${id}`;
+        let dltUrl = `${BACK_URL}/recipes/${id}`;
         const token=cookie.token;
         const res = await fetch(dltUrl, {
             method: "DELETE",

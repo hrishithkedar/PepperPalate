@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Svg_3 } from './Svg';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from "react-router-dom";
-
+import BACK_URL from '../config.js'
 const SignedNavbar = () => {
     const [isDropdownOpen, setDropdownOpen] = useState(false);
     const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -14,7 +14,7 @@ const SignedNavbar = () => {
 
     useEffect(() => {
         const fetchNavUser = async () => {
-            const res = await fetch("https://pepperpalate-backend.onrender.com/auth/getUser", {
+            const res = await fetch(`${BACK_URL}/auth/getUser`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

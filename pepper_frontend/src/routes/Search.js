@@ -2,13 +2,13 @@ import { useState } from "react";
 import Navbar from "./Navbar";
 import RecipeCard from "./RecipeCard";
 import OgNav from "./OgNav";
-
+import BACK_URL from '../config.js'
 const Search = () => {
     const [search, setSearch] = useState("");
     const [arr, setArr] = useState([]);
 
     const onSearch = async () => {
-        let url = `https://pepperpalate-backend.onrender.com/recipes/${search}`;
+        let url = `${BACK_URL}/recipes/${search}`;
 
         try {
             const res = await fetch(url, {
