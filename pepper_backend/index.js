@@ -13,8 +13,7 @@ const UserRoute=require('./routes/users');
 const RecipeRoute=require("./routes/recipe")
 const reviewRoute=require("./routes/review")
 require('dotenv').config();
-const url=`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PWD}@cluster0.w6svjyw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
-mongoose.connect(`mongodb://theforestlife:${process.env.MONGO_PWD}@ac-ymdm2fb-shard-00-00.w6svjyw.mongodb.net:27017,ac-ymdm2fb-shard-00-01.w6svjyw.mongodb.net:27017,ac-ymdm2fb-shard-00-02.w6svjyw.mongodb.net:27017/?ssl=true&replicaSet=atlas-awmzb5-shard-0&authSource=admin&appName=Cluster0`)
+mongoose.connect(`mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PWD}@ac-ymdm2fb-shard-00-00.w6svjyw.mongodb.net:27017,ac-ymdm2fb-shard-00-01.w6svjyw.mongodb.net:27017,ac-ymdm2fb-shard-00-02.w6svjyw.mongodb.net:27017/?ssl=true&replicaSet=atlas-awmzb5-shard-0&authSource=admin&appName=Cluster0`)
 .then((d)=>{
     console.log("Connection Successful")
 })
