@@ -2,7 +2,8 @@ import { useState } from "react";
 import Navbar from "./Navbar";
 import RecipeCard from "./RecipeCard";
 import OgNav from "./OgNav";
-import BACK_URL from '../config.js'
+import BACK_URL from '../config'
+import toast from "react-hot-toast";
 const Search = () => {
     const [search, setSearch] = useState("");
     const [arr, setArr] = useState([]);
@@ -22,13 +23,13 @@ const Search = () => {
             const response = await res.json();
 
             if (response.error) {
-                alert(response.error);
+                toast.error(response.error);
             }
             setArr(response || []);
         }
 
         catch (err) {
-            alert(err);
+            toast.error(err);
         }
 
 

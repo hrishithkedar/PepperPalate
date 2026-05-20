@@ -7,10 +7,12 @@ import Post from "./routes/postRecipe";
 import Recipe from "./routes/Recipe";
 import Update from "./routes/Update";
 import Profile from "./routes/profile";
+import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./context/AuthContext";
 function App() {
   return (
     <AuthProvider>
+      <Toaster position="top-center" />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Start_1 />} />

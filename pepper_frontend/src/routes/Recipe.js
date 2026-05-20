@@ -8,7 +8,7 @@ import StaticStarRating from "./StaticStar";
 import OgNav from "./OgNav";
 import { useAuth } from "../context/AuthContext";
 import BASE_URL from "../config";
-
+import toast from "react-hot-toast";
 const Recipe = () => {
     const [recipe, setRecipe] = useState({});
     const [nutrition, setNutrition] = useState({});
@@ -76,10 +76,10 @@ const Recipe = () => {
         });
         const rev = await res.json();
         if (rev.error) {
-            alert(rev.error);
+            toast.error(rev.error);
             return;
         }
-        alert("Successfully Posted Review");
+        toast.success("Successfully Posted Review");
         setReview([...reviews, rev]);
         window.location.reload();
     };

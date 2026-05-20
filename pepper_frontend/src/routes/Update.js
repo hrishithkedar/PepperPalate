@@ -8,6 +8,7 @@ import { useCookies } from "react-cookie";
 import { Link, useNavigate } from "react-router-dom";
 import OgNav from "./OgNav";
 import BACK_URL from '../config.js'
+import toast from "react-hot-toast";
 const Update = () => {
     const navigate = useNavigate();
     const [index, setIndex] = useState(0);
@@ -211,7 +212,7 @@ const Update = () => {
             <button className="border-2 p-2 mt-4 border-black mb-4" disabled={index !== arr.length - 1} onClick={async (e) => {
                 e.preventDefault();
                 if(!validateForm()){
-                    alert('Fill all the details')
+                    toast('Fill all the details')
                     return;
                 }
                 let data = ingredients.map((el) => {
@@ -239,10 +240,10 @@ const Update = () => {
                 })
                 const response = await res.json();
                 if (response.error) {
-                    alert(response.error);
+                    toast.error(response.error);
                     return;
                 }
-                alert("Successfully Updated Recipe from your account.")
+                toast.success("Successfully Updated Recipe from your account.")
                 console.log(response);
                 navigate("/home")
 

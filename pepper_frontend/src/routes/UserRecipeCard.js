@@ -1,6 +1,7 @@
 import React from 'react';
 import { useCookies } from 'react-cookie';
 import BACK_URL from '../config.js'
+import toast from "react-hot-toast";
 const UserRecipeCard = ({ imgSrc, description, author, title, id }) => {
     const url = `/recipes/${id}`;
     const updateUrl = `/recipes/${id}/update`;
@@ -19,10 +20,10 @@ const UserRecipeCard = ({ imgSrc, description, author, title, id }) => {
         })
         const response=await res.json();
         if(response.error){
-            alert(response.error)
+            toast.error(response.error)
             return;
         }
-        alert("Successfully Deleted Review");
+        toast.success("Successfully Deleted Review");
         window.location.reload();
         console.log(response)
 

@@ -1,8 +1,8 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
-import BACK_URL from "../config.js";
+import BACK_URL from "../config";
+import toast from "react-hot-toast";
 const AuthContext = createContext();
-
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
             return;
         }
         try {
-            const res = await fetch(`${BASE_URL}/auth/getUser`, {
+            const res = await fetch(`${BACK_URL}/auth/getUser`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -46,6 +46,7 @@ export const AuthProvider = ({ children }) => {
 
     const logout = () => {
         removeCookie("token", { path: "/" });
+        toast('Logged out succesfully')
         setUser(null);
     };
 

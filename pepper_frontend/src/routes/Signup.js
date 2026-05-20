@@ -5,7 +5,7 @@ import OgNav from "./OgNav";
 import TextInput from "./TextInput";
 import "./Signup.css";
 import BASE_URL from "../config";
-
+import toast from "react-hot-toast";
 const Signup = () => {
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
@@ -51,7 +51,7 @@ const Signup = () => {
         });
         const response = await res.json();
         if (response.error) {
-            alert(response.error);
+            toast.error(response.error);
             return;
         }
         login(response.token, response.user);

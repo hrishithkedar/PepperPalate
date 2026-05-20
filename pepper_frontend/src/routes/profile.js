@@ -4,7 +4,7 @@ import OgNav from "./OgNav";
 import { useParams } from "react-router-dom";
 import UserRecipeCard from "./UserRecipeCard";
 import BASE_URL from "../config";
-
+import toast from "react-hot-toast";
 const Profile = () => {
     const { userID } = useParams();
     const { user, token, fetchUser } = useAuth();
@@ -15,7 +15,7 @@ const Profile = () => {
 
     const submitImage = async () => {
         if (!image) {
-            alert("Please select an image to upload.");
+            toast("Please select an image to upload.");
             return;
         }
 
@@ -46,7 +46,7 @@ const Profile = () => {
         const backData = await bacRes.json();
         console.log(backData);
         setShow(false);
-        alert("Successfully Uploaded Image");
+        toast.success("Successfully Uploaded Image");
         fetchUser();
     };
 

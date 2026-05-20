@@ -2,6 +2,7 @@ import TextInput from "./TextInput"
 import LabelInput from "./LabelInput";
 import NutritionInput from "./NutritionInput";
 import { useState } from "react"
+import toast from "react-hot-toast";
 export function PostDiv_1({ title, cardDescription, description, setTitle, setCardDescription, setDescription,error }) {
     return (
         <div className="flex flex-col justify-center items-center w-8/12">
@@ -39,7 +40,7 @@ export function PostDiv_2({ prepTime, cookTime, Servings, setPrepTime, setCookTi
         })
         const result = await res.json();
         setImgSrc(imgSrc=>result.url);
-        alert("Successfully Uploaded Image")
+        toast.success("Successfully Uploaded Image")
         console.log(imgSrc)
     }
     return (
