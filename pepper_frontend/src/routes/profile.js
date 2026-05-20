@@ -1,19 +1,17 @@
 import { useEffect, useState } from "react";
+import { useAuth } from "../context/AuthContext";
 import OgNav from "./OgNav";
 import { useParams } from "react-router-dom";
-import { useCookies } from "react-cookie";
 import UserRecipeCard from "./UserRecipeCard";
-import BACK_URL from '../config.js'
+import BASE_URL from "../config";
 
 const Profile = () => {
     const { userID } = useParams();
-    const [cookie] = useCookies(["token"]);
-    const [user, setUser] = useState({});
+    const { user, token, fetchUser } = useAuth();
     const [arr, setArr] = useState([]);
     const [show, setShow] = useState(false);
     const [image, setImage] = useState(null);
     const [imgSrc, setImgSrc] = useState("");
-    const token = cookie.token;
 
     const submitImage = async () => {
         if (!image) {
@@ -36,7 +34,7 @@ const Profile = () => {
         setImgSrc(newImgSrc);
 
         const body = { url: newImgSrc };
-        const bacRes = await fetch(`${BACK_URL}/auth/profile`, {
+        const bacRes = await fetch(`${BASE_URL}/auth/profile`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -49,25 +47,11 @@ const Profile = () => {
         console.log(backData);
         setShow(false);
         alert("Successfully Uploaded Image");
-        fetchUser(); // Fetch updated user data after uploading the image
-    };
-
-    const fetchUser = async () => {
-        const res = await fetch(`${BACK_URL}/auth/getUser`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            }
-        });
-
-        const data = await res.json();
-        setUser(data || {});
+        fetchUser();
     };
 
     const fetchRecipes = async () => {
-        const recipeUrl = `${BACK_URL}/recipes/userRecipes`;
-        const res = await fetch(recipeUrl, {
+        const res = await fetch(`${BASE_URL}/recipes/userRecipes`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -80,11 +64,8 @@ const Profile = () => {
     };
 
     useEffect(() => {
-        fetchUser();
         fetchRecipes();
     }, [token]);
-
-    console.log(user);
 
     return (
         <div className="flex flex-col">
@@ -92,22 +73,18 @@ const Profile = () => {
             <div className="profile-card w-full mt-28 flex justify-center items-center flex-col border-b-2 pb-12">
                 <img
                     className="w-1/12 rounded-xl mb-2"
-                    src={user.profile || "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKkAAACUCAMAAADf7/luAAAAMFBMVEXm5uampqagoKDh4eGjo6Pp6empqanFxcW6urrBwcGtra3R0dHNzc2zs7PX19fU1NSEMywJAAADRklEQVR4nO2bWZLrIAwAzSLvkPvfdrCdTOIaJwEkhP2e+idV+eoCJBbJTSMIgiAIgiAIgiAIgvCPAAsvvycluPl56N1CP8y+OaUsNMYPo9XWWrUQfrUdB2+ak9mC79xD8kn4x3X+TKpg+vaP5kO27c1ZXIOnPrR8oM/iOrefRYNqO9eWXAdUHc/7bg2o6sMKvv3uubq2dSMLpjeBdKBqp4qqMEdqbszVVGH+Fkp7dC1VuMXO/AN7q6IagilRVKk6YWXG1CENgzoaflEY0hbphh7YBxV8+oiuo8o+/8Zlmjrm+YcuTzSodryDmhNOd1PeoErN+a/w5n9IT6VPWkbT9N3pFc6dCnqUac9nakaEqFJ8MQU3zDINC5Vv+rOT6YbtuEQb1DJdFiqbaeZO+mvquEQNbpmGhcoVUgY3pGFQuUx9/la6oT2T6Q1typSmYEKbMl39r2NKMfs8oheKqOtkKYMUVYrtMJV9iboP6cgleqETymVOfXBDiSrFd5K+zO0kLFSUKd8yXZ73EaKsD/6AGlPWN5QO8drD+4SGuKCwXU3uDNlvfQOvaH6iYn/phznzTZq/JgVZl37rKpR5TGRtdyfKHU4rWbt/pSJf8hN6vcJpYvGsQtnsVzXpoMpd39mTsKtqvlfTI6KbJuq2TKyqPiqvWle/wQtMxBHADrVbe1ZVmL6aTifoRQQzRUy/dVPlQYVmdlEhZa2ba3ZNwjQm9EuN1aI/hL1Oyvy6TgKApks+TNm2418CkNeLYEf2yJoiOiQPVRVvgyd0maKLK+uJClnf59IEg34/5VmsgC3wriVeFlXkiG6jehFRFtW8xsO/FL9T4V5OXyl8BwBP5LlQ9hCADvsnRXs88jskD1XL3aoBXdrdo4vNv3GkokoV65rNfDJ9jy10rkI3H/2lzCMlpl7yjkJ1FHLPhQKetBnqQYlMRR74G/ThT7fh7ymw/ZMc9g5MyY9/+C6ZdxBPP77v7B3U/Wh5dbIYyGtphTwXSD1zvzGKgfY7pDJp/25Km/xxLTKfoc1TZTaoDdJbCrJB6jOUvQk5H2zGQ/lpJ7o97jOEpfTcVo44SBs+CiYp4tZJMf2vTXVJSFsUTEkoRQVBEARBEIQjfgDVyCpqKlcIqgAAAABJRU5ErkJggg=="}
+                    src={user?.profile || "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKkAAACUCAMAAADf7/luAAAAMFBMVEXm5uampqagoKDh4eGjo6Pp6empqanFxcW6urrBwcGtra3R0dHNzc2zs7PX19fU1NSEMywJAAADRklEQVR4nO2bWZLrIAwAzSLvkPvfdrCdTOIaJwEkhP2e+idV+eoCJBbJTSMIgiAIgiAIgiAIgvCPAAsvvycluPl56N1CP8y+OaUsNMYPo9XWWrUQfrUdB2+ak9mC79xD8kn4x3X+TKpg+vaP5kO27c1ZXIOnPrR8oM/iOrefRYNqO9eWXAdUHc/7bg2o6sMKvv3uubq2dSMLpjeBdKBqp4qqMEdqbszVVGH+Fkp7dC1VuMXO/AN7q6IagilRVKk6YWXG1CENgzoaflEY0hbphh7YBxV8+oiuo8o+/8Zlmjrm+YcuTzSodryDmhNOd1PeoErN+a/w5n9IT6VPWkbT9N3pFc6dCnqUac9nakaEqFJ8MQU3zDINC5Vv+rOT6YbtuEQb1DJdFiqbaeZO+mvquEQNbpmGhcoVUgY3pGFQuUx9/la6oT2T6Q1typSmYEKbMl39r2NKMfs8oheKqOtkKYMUVYrtMJV9iboP6cgleqETymVOfXBDiSrFd5K+zO0kLFSUKd8yXZ73EaKsD/6AGlPWN5QO8drD+4SGuKCwXU3uDNlvfQOvaH6iYn/phznzTZq/JgVZl37rKpR5TGRtdyfKHU4rWbt/pSJf8hN6vcJpYvGsQtnsVzXpoMpd39mTsKtqvlfTI6KbJuq2TKyqPiqvWle/wQtMxBHADrVbe1ZVmL6aTifoRQQzRUy/dVPlQYVmdlEhZa2ba3ZNwjQm9EuN1aI/hL1Oyvy6TgKApks+TNm2418CkNeLYEf2yJoiOiQPVRVvgyd0maKLK+uJClnf59IEg34/5VmsgC3wriVeFlXkiG6jehFRFtW8xsO/FL9T4V5OXyl8BwBP5LlQ9hCADvsnRXs88jskD1XL3aoBXdrdo4vNv3GkokoV65rNfDJ9jy10rkI3H/2lzCMlpl7yjkJ1FHLPhQKetBnqQYlMRR74G/ThT7fh7ymw/ZMc9g5MyY9/+C6ZdxBPP77v7B3U/Wh5dbIYyGtphTwXSD1zvzGKgfY7pDJp/25Km/xxLTKfoc1TZTaoDdJbCrJB6jOUvQk5H2zGQ/lpJ7o97jOEpfTcVo44SBs+CiYp4tZJMf2vTXVJSFsUTEkoRQVBEARBEIQjfgDVyCpqKlcIqgAAAABJRU5ErkJggg=="}
                     alt="Profile"
                 />
-                <p className="font-bold mb-2">{user.username}</p>
+                <p className="font-bold mb-2">{user?.username}</p>
                 <a href="/post">
                     <button className="p-2 bg-lime-300 shadow-button">Post a Recipe!</button>
                 </a>
                 {show ? (
                     <div>
-                        <input
-                            id="image"
-                            type="file"
-                            onChange={(e) => setImage(e.target.files[0])}
-                        />
+                        <input id="image" type="file" onChange={(e) => setImage(e.target.files[0])} />
                         <button onClick={submitImage} className="border-2 p-2 mt-2 shadow-button bg-[#60e1f0]">
-                        Upload your profile Photo
+                            Upload your profile Photo
                         </button>
                     </div>
                 ) : (
@@ -127,7 +104,7 @@ const Profile = () => {
                             imgSrc={el.imgSrc}
                             description={el.cardDescription}
                             title={el.title}
-                            author={user.username}
+                            author={user?.username}
                             id={el._id}
                         />
                     ))

@@ -1,12 +1,11 @@
-
-import { useCookies } from "react-cookie"
+import{useAuth} from "../context/AuthContext"
 import SignedNavbar from "./SignedNavBar";
 import Navbar from "./Navbar";
 const OgNav=()=>{
 
-    const[cookie,setCookie]=useCookies(["token"]);
+    const {token}=useAuth();
     
-    if(cookie.token){
+    if(token){
         return(
             <SignedNavbar />
         )

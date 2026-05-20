@@ -1,4 +1,4 @@
-import {BrowserRouter,Routes,Route} from "react-router-dom"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Login from "./routes/Login";
 import Signup from "./routes/Signup";
 import Start_1 from "./routes/Start1";
@@ -7,22 +7,24 @@ import Post from "./routes/postRecipe";
 import Recipe from "./routes/Recipe";
 import Update from "./routes/Update";
 import Profile from "./routes/profile";
-
+import { AuthProvider } from "./context/AuthContext";
 function App() {
   return (
-    <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<Start_1/>} />
-      <Route path="/home" element={<Start_1 />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/recipes" element={<Search />} />
-      <Route path="/post" element={<Post/>} />
-      <Route path="/recipes/:recipeID/update" element={<Update />} />
-      <Route path="/recipes/:recipeID" element={<Recipe />} />
-      <Route path="/profile/:userID" element={<Profile />} />
-    </Routes> 
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Start_1 />} />
+          <Route path="/home" element={<Start_1 />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/recipes" element={<Search />} />
+          <Route path="/post" element={<Post />} />
+          <Route path="/recipes/:recipeID/update" element={<Update />} />
+          <Route path="/recipes/:recipeID" element={<Recipe />} />
+          <Route path="/profile/:userID" element={<Profile />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

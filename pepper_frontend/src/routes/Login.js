@@ -1,57 +1,40 @@
 import { useNavigate } from "react-router-dom";
-import Navbar from "./Navbar";
+import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import OgNav from "./OgNav";
 import TextInput from "./TextInput";
 import "./login.css";
-import { useState } from "react";
-import { useCookies } from "react-cookie";
-import OgNav from "./OgNav";
-
+import BASE_URL from "../config.js"
 const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({});
-    const [cookie, setCookie] = useCookies(["token"]);
+    const { login } = useAuth();
     const navigate = useNavigate();
 
     const validateForm = () => {
         const newErrors = {};
-        if (!username) {
-            newErrors.username = "Username is required";
-        }
-
-        if (!password) {
-            newErrors.password = "Password is required";
-        }
-
+        if (!username) newErrors.username = "Username is required";
+        if (!password) newErrors.password = "Password is required";
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
 
     const OnLogin = async () => {
-        if (!validateForm()) {
-            return;
-        }
+        if (!validateForm()) return;
 
-        const body = { username, password };
-        const res = await fetch("https://pepperpalate-backend.onrender.com/auth/login", {
+        const res = await fetch(`${BASE_URL}/auth/login`, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(body)
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password })
         });
         const response = await res.json();
         if (response.error) {
             alert(response.error);
             return;
         }
-        const token = response.token;
-        const date = new Date();
-        date.setDate(date.getDate() + 30);
-        setCookie("token", token, { path: "/", expires: date });
-        alert("Logged In Successfully");
-        navigate('/home');
-        console.log(response);
+        login(response.token, response.user);
+        navigate("/home");
     };
 
     return (
@@ -68,13 +51,12 @@ const Login = () => {
                         e.preventDefault();
                         OnLogin();
                     }}>Sign In</button>
-
                     <a className="mt-4 hover:underline" href="/signup">
                         <p className="text-sm text-[#403e3d]">Don't have an account? Sign Up</p>
                     </a>
                 </div>
                 <div className="right-div flex-shrink-0">
-                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Zm9vZHxlbnwwfHwwfHx8MA%3D%3D" className="h-full w-auto" />
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop&q=60" className="h-full w-auto" />
                 </div>
             </div>
         </div>
