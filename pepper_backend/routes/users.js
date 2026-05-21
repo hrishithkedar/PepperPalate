@@ -6,9 +6,10 @@ const bcrypt = require('bcrypt');
 const passport = require('passport');
 const asyncHandler = require('../utils/asyncHandler');
 const { AppError } = require('../middleware/errorMiddleware');
+const { signupSchema, loginSchema, validate } = require('../validators/authValidator');
 require('dotenv').config();
 
-Router.post('/signup', asyncHandler(async (req, res) => {
+Router.post('/signup', validate(signupSchema), asyncHandler(async (req, res) => {
     const { username, password, email } = req.body;
 
     const foundUserByEmail = await User.findOne({ email });
@@ -28,7 +29,7 @@ Router.post('/signup', asyncHandler(async (req, res) => {
     return res.status(200).json({ user: newUser, token });
 }));
 
-Router.post('/login', asyncHandler(async (req, res) => {
+Router.post('/login', validate(loginSchema),asyncHandler(async (req, res) => {
     const { username, password } = req.body;
 
     const foundUser = await User.findOne({ username });

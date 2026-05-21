@@ -5,8 +5,8 @@ const Recipe = require('../models/recipe');
 const Nutrition = require('../models/nutrition');
 const mongoose = require('mongoose');
 const asyncHandler = require('../utils/asyncHandler');
-const { AppError } = require('../middlewarec/errorMiddleware');
-
+const { AppError } = require('../middleware/errorMiddleware');
+const { recipeSchema, validate } = require('../validators/recipeValidator');
 const getRatingAndReviewCount = async (recipeId) => {
     if (!mongoose.Types.ObjectId.isValid(recipeId)) {
         throw new AppError('Invalid recipe ID', 400);
@@ -93,7 +93,7 @@ Router.get('/show/:recipeID', asyncHandler(async (req, res) => {
     return res.status(200).json({ ...foundRecipe.toObject(), ...obj });
 }));
 
-Router.post('/', passport.authenticate('jwt', { session: false }), asyncHandler(async (req, res) => {
+Router.post('/', passport.authenticate('jwt', { session: false }), validate(recipeSchema), asyncHandler(async (req, res) => {
     const { title, imgSrc, cookTime, prepTime, Servings, cardDescription, description, sts_process, noOfIngredients, ingredients, nutrition } = req.body;
     const newNutri = await Nutrition.create(nutrition);
     const foundRecipe = await Recipe.findOne({ title, user: req.user._id });
@@ -104,7 +104,7 @@ Router.post('/', passport.authenticate('jwt', { session: false }), asyncHandler(
     return res.status(201).json(newRecipe);
 }));
 
-Router.patch('/:recipeID/update', passport.authenticate('jwt', { session: false }), asyncHandler(async (req, res) => {
+Router.patch('/:recipeID/update', passport.authenticate('jwt', { session: false }),validate(recipeSchema) ,asyncHandler(async (req, res) => {
     const { title, imgSrc, cookTime, prepTime, Servings, cardDescription, description, sts_process, noOfIngredients, nutrition } = req.body;
     const { recipeID } = req.params;
     const foundRecipe = await Recipe.findById(recipeID);

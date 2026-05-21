@@ -5,8 +5,8 @@ const Recipe = require('../models/recipe');
 const Router = express.Router();
 const asyncHandler = require('../utils/asyncHandler');
 const { AppError } = require('../middleware/errorMiddleware');
-
-Router.post('/:recipeID', passport.authenticate('jwt', { session: false }), asyncHandler(async (req, res) => {
+const { reviewSchema, validate } = require('../validators/reviewValidator');
+Router.post('/:recipeID', passport.authenticate('jwt', { session: false }), validate(reviewSchema), asyncHandler(async (req, res) => {
     const { recipeID } = req.params;
     const { rating, body } = req.body;
 
