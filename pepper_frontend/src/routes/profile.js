@@ -49,7 +49,7 @@ const Profile = () => {
         toast.success("Successfully Uploaded Image");
         fetchUser();
     };
-
+    
     const fetchRecipes = async () => {
         const res = await fetch(`${BASE_URL}/recipes/userRecipes`, {
             method: "GET",
@@ -66,6 +66,9 @@ const Profile = () => {
     useEffect(() => {
         fetchRecipes();
     }, [token]);
+    const handleDelete = (deletedId) => {
+    setArr(prev => prev.filter(recipe => recipe._id !== deletedId));
+};
 
     return (
         <div className="flex flex-col">
@@ -106,6 +109,7 @@ const Profile = () => {
                             title={el.title}
                             author={user?.username}
                             id={el._id}
+                            onDelete={handleDelete}
                         />
                     ))
                 ) : (
