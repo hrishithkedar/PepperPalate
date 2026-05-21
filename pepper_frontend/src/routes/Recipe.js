@@ -80,8 +80,9 @@ const Recipe = () => {
             return;
         }
         toast.success("Successfully Posted Review");
-        setReview([...reviews, rev]);
-        window.location.reload();
+        setReview(prev => [...prev, { ...rev, user: { username: user.username, profile: user.profile } }]);
+        setPostBody("");
+        setRating(3)
     };
 
     return (
