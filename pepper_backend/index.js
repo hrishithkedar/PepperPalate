@@ -6,6 +6,7 @@ const mongoose=require('mongoose');
 const User=require("./models/users");
 const Nutrition=require('./models/nutrition');
 const Review=require('./models/review');
+const {errorMiddleware}=require('./middleware/errorMiddleware')
 const passport=require('passport')
 const JwtStrategy = require('passport-jwt').Strategy,
     ExtractJwt = require('passport-jwt').ExtractJwt;
@@ -55,3 +56,4 @@ app.get('/',passport.authenticate('jwt', { session: false }),(req,res)=>{
 app.use('/auth',UserRoute);
 app.use('/recipes',RecipeRoute)
 app.use('/review',reviewRoute)
+app.use(errorMiddleware)
