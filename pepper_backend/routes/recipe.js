@@ -59,7 +59,55 @@ Router.get('/:recipeID/ratings', asyncHandler(async (req, res) => {
     const obj = await getRatingAndReviewCount(recipeID);
     res.json(obj);
 }));
+Router.get('/trending', asyncHandler(async (req, res) => {
+    const trendingRecipes = await Recipe.aggregate([
+        {
+            $lookup: {
+                from: 'reviews',
+                localField: 'reviews',
+                foreignField: '_id',
+                as: 'reviewData'
+            }
+        },
+        {
+            $addFields: {
+                averageRating: { $avg: '$reviewData.rating' },
+                reviewCount: { $size: '$reviewData' }
+            }
+        },
+        {
+            $match: {
+                reviewCount: { $gt: 0 }
+            }
+        },
+        {
+            $sort: {
+                averageRating: -1,
+                reviewCount: -1
+            }
+        },
+        {
+            $limit: 5
+        },
+        {
+            $lookup: {
+                from: 'users',
+                localField: 'user',
+                foreignField: '_id',
+                as: 'user'
+            }
+        },
+        {
+            $unwind: '$user'
+        }
+    ]);
 
+    if (!trendingRecipes || trendingRecipes.length === 0) {
+        throw new AppError("No trending recipes found", 404);
+    }
+
+    return res.status(200).json(trendingRecipes);
+}));
 Router.get('/:recipe', asyncHandler(async (req, res) => {
     const { recipe } = req.params;
     const foundRecipe = await Recipe.find({ $text: { $search: recipe } }).populate('user');
@@ -70,14 +118,29 @@ Router.get('/:recipe', asyncHandler(async (req, res) => {
 }));
 
 Router.get('/', asyncHandler(async (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 8;
+    const skip = (page - 1) * limit;
+
+    const totalRecipes = await Recipe.countDocuments();
+    const totalPages = Math.ceil(totalRecipes / limit);
+
     const recentRecipes = await Recipe.find({})
         .sort({ createdAt: -1 })
-        .limit(8)
+        .skip(skip)
+        .limit(limit)
         .populate('user');
+
     if (!recentRecipes || recentRecipes.length === 0) {
         throw new AppError("No recipes found", 404);
     }
-    return res.status(200).json(recentRecipes);
+
+    return res.status(200).json({
+        recipes: recentRecipes,
+        currentPage: page,
+        totalPages,
+        totalRecipes
+    });
 }));
 
 Router.get('/show/:recipeID', asyncHandler(async (req, res) => {

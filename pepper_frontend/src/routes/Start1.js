@@ -5,37 +5,36 @@ import OgNav from "./OgNav";
 import { useAuth } from "../context/AuthContext";
 import { useEffect, useState } from "react";
 import BASE_URL from "../config";
-
+import TrendingRecipes from "./TrendingRecipes";
 const Start_1 = () => {
     const [arr, setArr] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
     const { token } = useAuth();
-    const [loading,setLoading]=useState(true)
 
     useEffect(() => {
         const fetchRecent = async () => {
-            setLoading(true)
-            const res = await fetch(`${BASE_URL}/recipes`, {
+            setLoading(true);
+            const res = await fetch(`${BASE_URL}/recipes?page=${page}&limit=8`, {
                 method: "GET",
-                headers: {
-                    "Content-Type": "application/json"
-                }
+                headers: { "Content-Type": "application/json" }
             });
             const data = await res.json();
-            setArr(data);
-            setLoading(false)
+            setArr(data.recipes || []);
+            setTotalPages(data.totalPages || 1);
+            setLoading(false);
         };
-
         fetchRecent();
-    }, []);
+    }, [page]);
 
     if (loading) return (
-    <div className="flex justify-center items-center h-screen">
-        <p className="text-2xl font-bold text-[#fa1111]">Loading Recipes...</p>
-    </div>
-);
+        <div className="flex justify-center items-center h-screen">
+            <p className="text-2xl font-bold text-[#fa1111]">Loading Recipes...</p>
+        </div>
+    );
 
     return (
-        
         <div className="content flex flex-col h-screen w-screen">
             <OgNav />
 
@@ -68,6 +67,7 @@ const Start_1 = () => {
             </p>
 
             <h1 className="font-bold text-4xl text-center mt-8 border-b-2 pb-4">Recent Recipe Sensations</h1>
+
             <div className="cards grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-full mb-8 justify-items-center">
                 {arr.length ? (
                     arr.map((el) => (
@@ -81,8 +81,30 @@ const Start_1 = () => {
                         />
                     ))
                 ) : (
-                    <div></div>
+                    <div className="col-span-4 flex justify-center items-center mt-8">
+                        <p className="text-xl text-gray-500">No recipes found.</p>
+                    </div>
                 )}
+            </div>
+            <TrendingRecipes />
+            <div className="flex justify-center items-center space-x-8 mb-8">
+                <button
+                    onClick={() => setPage(page => page - 1)}
+                    disabled={page === 1}
+                    className={`border-2 p-2 px-6 rounded-full font-bold ${page === 1 ? 'border-gray-300 text-gray-300 cursor-not-allowed' : 'border-[#fa1111] text-[#fa1111] hover:bg-[#fa1111] hover:text-white'}`}
+                >
+                    Previous
+                </button>
+                <span className="font-bold text-lg">
+                    Page {page} of {totalPages}
+                </span>
+                <button
+                    onClick={() => setPage(page => page + 1)}
+                    disabled={page === totalPages}
+                    className={`border-2 p-2 px-6 rounded-full font-bold ${page === totalPages ? 'border-gray-300 text-gray-300 cursor-not-allowed' : 'border-[#fa1111] text-[#fa1111] hover:bg-[#fa1111] hover:text-white'}`}
+                >
+                    Next
+                </button>
             </div>
         </div>
     );

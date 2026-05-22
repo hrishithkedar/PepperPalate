@@ -211,16 +211,22 @@ const Recipe = () => {
                     )}
 
                     <div className="all-reviews flex flex-col mt-4">
-                        {reviews ? reviews.map((el) => (
-                            <div key={el._id} className="review-body border-b-2 pb-4 pt-4 w-full">
-                                <div className="usr flex space-x-2 items-center">
-                                    <img className="w-8 h-8 rounded-full" src={el.user?.profile || "https://media.istockphoto.com/id/1495088043/vector/user-profile-icon-avatar-or-person-icon-profile-picture-portrait-symbol-default-portrait.jpg?s=612x612&w=0&k=20&c=dhV2p1JwmloBTOaGAtaA3AW1KSnjsdMt7-U_3EZElZ0="} />
-                                    <p className="font-bold">{el.user?.username || ""}</p>
+                        {reviews.length > 0 ? (
+                            reviews.map((el) => (
+                                <div key={el._id} className="review-body border-b-2 pb-4 pt-4 w-full">
+                                    <div className="usr flex space-x-2 items-center">
+                                        <img className="w-8 h-8 rounded-full" src={el.user?.profile || "https://media.istockphoto.com/id/1495088043/vector/user-profile-icon-avatar-or-person-icon-profile-picture-portrait-symbol-default-portrait.jpg?s=612x612&w=0&k=20&c=dhV2p1JwmloBTOaGAtaA3AW1KSnjsdMt7-U_3EZElZ0="} />
+                                        <p className="font-bold">{el.user?.username || ""}</p>
+                                    </div>
+                                    {el.rating ? <StaticStarRating rating={el.rating || 0} /> : ""}
+                                    <div className="w-full">{el.body || ""}</div>
                                 </div>
-                                {el.rating ? <StaticStarRating rating={el.rating || 0} /> : ""}
-                                <div className="w-full">{el.body || ""}</div>
+                            ))
+                        ) : (
+                            <div className="flex justify-center items-center mt-4 mb-4">
+                                <p className="text-gray-500 text-lg">No reviews yet. Be the first to review this recipe!</p>
                             </div>
-                        )) : ""}
+                        )}
                     </div>
                 </div>
             </div>
