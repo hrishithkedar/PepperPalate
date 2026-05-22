@@ -9,25 +9,32 @@ import Update from "./routes/Update";
 import Profile from "./routes/profile";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
-  return (
-    <AuthProvider>
-      <Toaster position="top-center" />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Start_1 />} />
-          <Route path="/home" element={<Start_1 />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/recipes" element={<Search />} />
-          <Route path="/post" element={<Post />} />
-          <Route path="/recipes/:recipeID/update" element={<Update />} />
-          <Route path="/recipes/:recipeID" element={<Recipe />} />
-          <Route path="/profile/:userID" element={<Profile />} />
-        </Routes>
-      </BrowserRouter>
-    </AuthProvider>
-  );
+    return (
+        <AuthProvider>
+            <Toaster position="top-center" />
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<Start_1 />} />
+                    <Route path="/home" element={<Start_1 />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/signup" element={<Signup />} />
+                    <Route path="/recipes" element={<Search />} />
+                    <Route path="/post" element={
+                        <ProtectedRoute><Post /></ProtectedRoute>
+                    } />
+                    <Route path="/recipes/:recipeID/update" element={
+                        <ProtectedRoute><Update /></ProtectedRoute>
+                    } />
+                    <Route path="/recipes/:recipeID" element={<Recipe />} />
+                    <Route path="/profile/:userID" element={
+                        <ProtectedRoute><Profile /></ProtectedRoute>
+                    } />
+                </Routes>
+            </BrowserRouter>
+        </AuthProvider>
+    );
 }
 
 export default App;
