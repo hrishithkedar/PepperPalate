@@ -21,9 +21,10 @@ const Recipe = () => {
     const [reviews, setReview] = useState([]);
     const [ratings, setRatings] = useState({});
     const { user, token } = useAuth();
-
+    const [loading, setLoading] = useState(true)
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true)
             try {
                 const response = await fetch(`${BASE_URL}/recipes/show/${recipeID}`, {
                     method: "GET",
@@ -38,6 +39,8 @@ const Recipe = () => {
                 setReview(data.reviews || []);
             } catch (error) {
                 console.error("Error fetching data:", error);
+            } finally {
+                setLoading(false)
             }
         };
 
@@ -84,7 +87,14 @@ const Recipe = () => {
         setPostBody("");
         setRating(3)
     };
-
+    if (loading) return (
+        <div className="flex flex-col">
+            <OgNav />
+            <div className="flex justify-center items-center h-screen">
+                <p className="text-2xl font-bold text-[#fa1111]">Loading Recipe...</p>
+            </div>
+        </div>
+    );
     return (
         <div className="flex flex-col">
             <OgNav />

@@ -2,40 +2,38 @@ import { useState } from "react";
 import Navbar from "./Navbar";
 import RecipeCard from "./RecipeCard";
 import OgNav from "./OgNav";
-import BACK_URL from '../config'
+import BASE_URL from '../config'
 import toast from "react-hot-toast";
 const Search = () => {
     const [search, setSearch] = useState("");
     const [arr, setArr] = useState([]);
-
+    const [loading, setLoading] = useState(false)
+    const [hasSearched, setHasSearched] = useState(false);
     const onSearch = async () => {
-        let url = `${BACK_URL}/recipes/${search}`;
-
+        if (!search) {
+            toast.error("Please enter a search term");
+            return;
+        }
+        setLoading(true);
+        setHasSearched(true)
         try {
-            const res = await fetch(url, {
+            const res = await fetch(`${BASE_URL}/recipes/${search}`, {
                 method: "GET",
-                headers: {
-                    "Content-Type": "application/json"
-                }
-
+                headers: { "Content-Type": "application/json" }
             });
-
             const response = await res.json();
-
             if (response.error) {
                 toast.error(response.error);
+                setArr([]);
+            } else {
+                setArr(response);
             }
-            setArr(response || []);
+        } catch (err) {
+            toast.error("Something went wrong");
+        } finally {
+            setLoading(false);
         }
-
-        catch (err) {
-            toast.error(err);
-        }
-
-
-
-    }
-
+    };
     return (
         <div className="content flex flex-col">
             <OgNav />
@@ -58,7 +56,15 @@ const Search = () => {
             </div>
 
             <div className="cards grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-full mb-8 justify-items-center">
-                {arr.length ? (
+                {loading ? (
+                    <div className="col-span-4 flex justify-center items-center mt-8">
+                        <p className="text-2xl font-bold text-[#fa1111]">Searching...</p>
+                    </div>
+                ) : !hasSearched ? (
+                    <div className="col-span-4 flex justify-center items-center mt-8">
+                        <p className="text-xl text-gray-500">Search for your favourite recipes above.</p>
+                    </div>
+                ) : arr.length ? (
                     arr.map((el) => (
                         <RecipeCard
                             key={el._id}
@@ -70,7 +76,9 @@ const Search = () => {
                         />
                     ))
                 ) : (
-                    <div></div>
+                    <div className="col-span-4 flex justify-center items-center mt-8">
+                        <p className="text-xl text-gray-500">No recipes found. Try searching something else.</p>
+                    </div>
                 )}
             </div>
         </div>

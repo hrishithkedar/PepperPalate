@@ -9,9 +9,11 @@ import BASE_URL from "../config";
 const Start_1 = () => {
     const [arr, setArr] = useState([]);
     const { token } = useAuth();
+    const [loading,setLoading]=useState(true)
 
     useEffect(() => {
         const fetchRecent = async () => {
+            setLoading(true)
             const res = await fetch(`${BASE_URL}/recipes`, {
                 method: "GET",
                 headers: {
@@ -20,12 +22,20 @@ const Start_1 = () => {
             });
             const data = await res.json();
             setArr(data);
+            setLoading(false)
         };
 
         fetchRecent();
     }, []);
 
+    if (loading) return (
+    <div className="flex justify-center items-center h-screen">
+        <p className="text-2xl font-bold text-[#fa1111]">Loading Recipes...</p>
+    </div>
+);
+
     return (
+        
         <div className="content flex flex-col h-screen w-screen">
             <OgNav />
 

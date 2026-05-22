@@ -12,7 +12,7 @@ const Profile = () => {
     const [show, setShow] = useState(false);
     const [image, setImage] = useState(null);
     const [imgSrc, setImgSrc] = useState("");
-
+    const [loading, setLoading] = useState(true);
     const submitImage = async () => {
         if (!image) {
             toast("Please select an image to upload.");
@@ -49,8 +49,9 @@ const Profile = () => {
         toast.success("Successfully Uploaded Image");
         fetchUser();
     };
-    
+
     const fetchRecipes = async () => {
+        setLoading(true)
         const res = await fetch(`${BASE_URL}/recipes/userRecipes`, {
             method: "GET",
             headers: {
@@ -61,14 +62,15 @@ const Profile = () => {
 
         const data = await res.json();
         setArr(data || []);
+        setLoading(false)
     };
 
     useEffect(() => {
         fetchRecipes();
     }, [token]);
     const handleDelete = (deletedId) => {
-    setArr(prev => prev.filter(recipe => recipe._id !== deletedId));
-};
+        setArr(prev => prev.filter(recipe => recipe._id !== deletedId));
+    };
 
     return (
         <div className="flex flex-col">
@@ -99,9 +101,13 @@ const Profile = () => {
 
             <h1 className="text-4xl font-bold mt-4 text-center">Your Recipes</h1>
 
-            <div className="cards grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-full mb-8 justify-items-center">
-                {arr.length ? (
-                    arr.map((el) => (
+            {loading ? (
+                <div className="flex justify-center items-center mt-8">
+                    <p className="text-2xl font-bold text-[#fa1111]">Loading your recipes...</p>
+                </div>
+            ) : arr.length ? (
+                <div className="cards grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-full mb-8 justify-items-center">
+                    {arr.map((el) => (
                         <UserRecipeCard
                             key={el._id}
                             imgSrc={el.imgSrc}
@@ -111,11 +117,13 @@ const Profile = () => {
                             id={el._id}
                             onDelete={handleDelete}
                         />
-                    ))
-                ) : (
-                    <div></div>
-                )}
-            </div>
+                    ))}
+                </div>
+            ) : (
+                <div className="flex justify-center items-center mt-8">
+                    <p className="text-xl text-gray-500">You haven't posted any recipes yet. <a href="/post" className="text-[#fa1111] font-bold hover:underline">Post your first recipe!</a></p>
+                </div>
+            )}
         </div>
     );
 };
