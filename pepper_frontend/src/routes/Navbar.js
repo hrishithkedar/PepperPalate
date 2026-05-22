@@ -18,24 +18,34 @@ const Navbar = () => {
 
 
     return (
-        
 
-<nav className="nav w-screen bg-white border-b border-gray-200 dark:bg-gray-900 dark:border-gray-600 fixed z-20 top-0 start-0">
+
+        <nav className="nav w-screen bg-white border-b border-gray-200 dark:bg-gray-900 dark:border-gray-600 fixed z-20 top-0 start-0">
             <div className="w-screen flex items-center justify-between px-4">
                 <a href="/home" className="flex items-center space-x-3">
                     <Svg_3 />
                 </a>
                 <div className="flex items-center space-x-4 ml-auto">
-                    <div className="hidden md:flex space-x-4 font-bold">
+                    <div className="hidden md:flex space-x-4 font-bold items-center">
                         <a href="/home" className="block py-2 px-3 text-gray-900 rounded hover:text-[#fa1111]">Home</a>
                         <a href="/recipes" className="block py-2 px-3 text-gray-900 rounded hover:text-[#fa1111]">Recipes</a>
+                        <a href="/login">
+                            <button className="py-2 px-4 border-2 border-[#fa1111] text-[#fa1111] rounded-full text-sm font-bold hover:bg-[#fa1111] hover:text-white transition-colors">
+                                Login
+                            </button>
+                        </a>
+                        <a href="/signup">
+                            <button className="py-2 px-4 bg-[#fa1111] text-white rounded-full text-sm font-bold hover:bg-red-700 transition-colors shadow-md">
+                                Sign Up
+                            </button>
+                        </a>
                     </div>
-                    <button 
-                        data-collapse-toggle="navbar-user" 
-                        type="button" 
-                        className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" 
-                        aria-controls="navbar-user" 
-                        aria-expanded={isMobileMenuOpen} 
+                    <button
+                        data-collapse-toggle="navbar-user"
+                        type="button"
+                        className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                        aria-controls="navbar-user"
+                        aria-expanded={isMobileMenuOpen}
                         onClick={toggleMobileMenu}
                     >
                         <span className="sr-only">Open main menu</span>
@@ -49,6 +59,8 @@ const Navbar = () => {
                 <div className="md:hidden" id="navbar-user">
                     <a href="/home" className="block py-2 px-3 text-gray-900 rounded hover:text-[#fa1111]">Home</a>
                     <a href="/recipes" className="block py-2 px-3 text-gray-900 rounded hover:text-[#fa1111]">Recipes</a>
+                    <a href="/login" className="block py-2 px-3 text-[#fa1111] font-bold">Login</a>
+                    <a href="/signup" className="block py-2 px-3 text-[#fa1111] font-bold">Sign Up</a>
                 </div>
             )}
         </nav>

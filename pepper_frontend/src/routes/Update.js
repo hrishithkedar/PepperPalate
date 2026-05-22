@@ -13,6 +13,7 @@ const Update = () => {
     const [index, setIndex] = useState(0);
     const { recipeID } = useParams();
     const { token } = useAuth();
+    const stepLabels = ["Details", "Timings", "Ingredients", "Steps", "Nutrition"];
     const {
         title, setTitle,
         cardDescription, setCardDescription,
@@ -85,29 +86,67 @@ const Update = () => {
     ];
 
     return (
-        <div className="flex flex-col justify-center items-center image">
-            <OgNav />
-            <h1 className="mt-24 font-bold text-3xl text-[#fa1111] text-center">
-                Fill in the details completely to update a recipe.
-            </h1>
-            <div className="data-area border-2 rounded-md w-3/4 p-4 mt-12 flex">
-                <button className="w-2/12" onClick={() => setIndex(index => index - 1)} disabled={index === 0}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="45" viewBox="0 0 20 20" className="mr-auto">
-                        <path fill="red" d="m4 10l9 9l1.4-1.5L7 10l7.4-7.5L13 1z" />
-                    </svg>
+    <div className="flex flex-col items-center min-h-screen image pt-24 pb-12 px-4">
+        <OgNav />
+
+        <div className="w-full max-w-2xl">
+
+            
+            <div className="text-center mb-8">
+                <span className="bg-[#fff0f0] text-[#fa1111] text-xs px-4 py-1 rounded-full border border-[#ffd0d0] inline-block mb-3">
+                    Edit Recipe
+                </span>
+                <h1 className="text-3xl font-bold text-[#fa1111] mb-2">Update Your Recipe</h1>
+                <p className="text-gray-500 text-sm">Update the details of your recipe below</p>
+            </div>
+
+            
+            <div className="flex items-start justify-center mb-8">
+                {stepLabels.map((label, i) => (
+                    <div key={i} className="flex items-start">
+                        <div className="flex flex-col items-center">
+                            <div className={`step-dot ${i < index ? 'done' : i === index ? 'active' : 'inactive'}`}>
+                                {i < index ? '✓' : i + 1}
+                            </div>
+                            <span className={`step-label-text mt-1 ${i === index ? 'active' : ''}`}>{label}</span>
+                        </div>
+                        {i < stepLabels.length - 1 && (
+                            <div className={`step-connector ${i < index ? 'done' : ''}`} />
+                        )}
+                    </div>
+                ))}
+            </div>
+
+            
+            {arr[index]}
+
+            
+            <div className="nav-buttons">
+                <button
+                    className="btn-prev-styled"
+                    onClick={() => setIndex(index => index - 1)}
+                    disabled={index === 0}
+                >
+                    ← Previous
                 </button>
-                {arr[index]}
-                <button className="w-2/12" onClick={() => setIndex(index => index + 1)} disabled={index === arr.length - 1}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="45" viewBox="0 0 20 20" className="ml-auto">
-                        <path fill="red" d="M7 1L5.6 2.5L13 10l-7.4 7.5L7 19l9-9z" />
-                    </svg>
+                <button
+                    className="btn-submit-styled"
+                    disabled={index !== arr.length - 1}
+                    onClick={onUpdate}
+                >
+                    Update Recipe!
+                </button>
+                <button
+                    className="btn-next-styled"
+                    onClick={() => setIndex(index => index + 1)}
+                    disabled={index === arr.length - 1}
+                >
+                    Next →
                 </button>
             </div>
-            <button className="border-2 p-2 mt-4 border-black mb-4" disabled={index !== arr.length - 1} onClick={onUpdate}>
-                Update Recipe!
-            </button>
         </div>
-    );
+    </div>
+);
 };
 
 export default Update;

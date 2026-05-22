@@ -52,7 +52,7 @@ const Search = () => {
                 </button>
             </div>
 
-            <div className="cards grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-full mb-8 justify-items-center">
+            <div className="cards grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-full mb-8 justify-items-center p-6">
                 {loading ? (
                     <div className="col-span-4 flex justify-center items-center mt-8">
                         <p className="text-2xl font-bold text-[#fa1111]">Searching...</p>

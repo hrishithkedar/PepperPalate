@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import BASE_URL from "../config";
-import RecipeCard from "./RecipeCard";
 import recipeService from "../services/recipeService";
+import RecipeCard from "./RecipeCard";
+
 const TrendingRecipes = () => {
     const [trending, setTrending] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -24,7 +24,7 @@ const TrendingRecipes = () => {
     }, []);
 
     if (loading) return (
-        <div className="flex justify-center items-center mt-8">
+        <div className="flex justify-center items-center mt-8 mb-8">
             <p className="text-xl font-bold text-[#fa1111]">Loading Trending Recipes...</p>
         </div>
     );
@@ -32,11 +32,12 @@ const TrendingRecipes = () => {
     if (!trending.length) return null;
 
     return (
-        <div className="w-full mt-8">
-            <h1 className="font-bold text-4xl text-center mt-8 border-b-2 pb-4">
-                🔥 Trending Recipes
-            </h1>
-            <div className="cards grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-full mb-8 justify-items-center">
+        <div className="w-full px-8 mb-12">
+            <div className="section-header">
+                <h2 className="font-bold text-3xl">🔥 Trending Recipes</h2>
+                <span className="section-badge">Top Rated</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full">
                 {trending.map((el) => (
                     <RecipeCard
                         key={el._id}

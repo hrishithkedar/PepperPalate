@@ -1,83 +1,107 @@
-import TextInput from "./TextInput"
 import LabelInput from "./LabelInput";
 import NutritionInput from "./NutritionInput";
-import { useState } from "react"
-import toast from "react-hot-toast";
-export function PostDiv_1({ title, cardDescription, description, setTitle, setCardDescription, setDescription,error }) {
+
+export function PostDiv_1({ title, cardDescription, description, setTitle, setCardDescription, setDescription, error }) {
     return (
-        <div className="flex flex-col justify-center items-center w-8/12">
-            <h1 className="text-3xl font-bold tracking-wide mb-8">Details of the Recipe</h1>
-            <LabelInput error={error.title} type="text" placeholder="Name of your Recipe" value={title} setValue={setTitle} label="Name of your Recipe" />
-            <LabelInput error={error.cardDescription} type="text" placeholder="Description of the recipe in 5-10 words" value={cardDescription} setValue={setCardDescription} label="Concise Description" />
-            <div className="w-full flex justify-center items-center mb-4 flex-col">
-                <label className="text-lg font-semibold mr-auto">
-                    Entire Description
-                </label>
-                <textarea className="w-full p-4 bg-[#eef5f3] pt-2 pb-2 shadow-lg" placeholder="Entire Description of your recipe" value={description} onChange={(e) => {
-
-                    setDescription(e.target.value);
-
-                }}>
-                </textarea>
-                {error.description && <p className="text-red-500 text-sm mt-1">{error.description}</p>}
+        <div className="form-card">
+            <div className="form-section-title">📝 Recipe Details</div>
+            <div className="mb-5">
+                <label className="form-label">Recipe Name</label>
+                <input
+                    type="text"
+                    placeholder="e.g. Butter Chicken Curry"
+                    className="form-input-styled"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                />
+                {error.title && <p className="text-red-500 text-xs mt-1">{error.title}</p>}
             </div>
-
-
+            <div className="mb-5">
+                <label className="form-label">Short Description</label>
+                <input
+                    type="text"
+                    placeholder="Describe your recipe in 5-10 words"
+                    className="form-input-styled"
+                    value={cardDescription}
+                    onChange={(e) => setCardDescription(e.target.value)}
+                />
+                {error.cardDescription && <p className="text-red-500 text-xs mt-1">{error.cardDescription}</p>}
+            </div>
+            <div className="mb-5">
+                <label className="form-label">Full Description</label>
+                <textarea
+                    className="form-textarea-styled"
+                    placeholder="Describe your recipe in detail..."
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                />
+                {error.description && <p className="text-red-500 text-xs mt-1">{error.description}</p>}
+            </div>
         </div>
-    )
+    );
 }
 
-export function PostDiv_2({ prepTime, cookTime, Servings, setPrepTime, setCookTime, setServings,image,imgSrc,setImage,setImgSrc,error}) {
-
-    const submitImage = async () => {
-        const data = new FormData();
-        data.append("file", image);
-        data.append("upload_preset", "nn1a9bc7");
-        data.append("cloud_name", "da52sn5mt");
-        const res = await fetch("https://api.cloudinary.com/v1_1/da52sn5mt/image/upload", {
-            method: "POST",
-            body: data
-        })
-        const result = await res.json();
-        setImgSrc(imgSrc=>result.url);
-        toast.success("Successfully Uploaded Image")
-        console.log(imgSrc)
-    }
+export function PostDiv_2({ prepTime, cookTime, Servings, setPrepTime, setCookTime, setServings, image, imgSrc, setImage, setImgSrc, submitImage, error }) {
     return (
-        <div className="flex flex-col justify-center items-center w-8/12">
-            <h1  className="text-3xl font-bold tracking-wide mb-8">Timings</h1>
-            <LabelInput error={error.cookTime} type="text" placeholder="Cooking Time(in mins)" value={cookTime} setValue={setCookTime} label="Cook Time" />
-            <LabelInput error={error.prepTime} type="text" placeholder="Preparation Time(in mins)" value={prepTime} setValue={setPrepTime} label="Prep Time" />
-            <LabelInput error={error.Servings} type="text" placeholder="Servings(Serves how many people?)" value={Servings} setValue={setServings} label="Servings" />
-            <label for ="image" className="text-2xl font-bold mb-4">
-                Upload your Recipe Image
-            </label>
-            <input id="image" type="file" onChange={(e) => {
-                setImage(e.target.files[0])
-            }} />
-            <button onClick={submitImage} className="border-2 border-black p-2">Upload!</button>
-
-
+        <div className="form-card">
+            <div className="form-section-title">⏱ Timings & Image</div>
+            <div className="grid grid-cols-2 gap-4 mb-5">
+                <div>
+                    <label className="form-label">Cook Time (mins)</label>
+                    <input type="number" placeholder="e.g. 30" className="form-input-styled" value={cookTime} onChange={(e) => setCookTime(e.target.value)} />
+                    {error.cookTime && <p className="text-red-500 text-xs mt-1">{error.cookTime}</p>}
+                </div>
+                <div>
+                    <label className="form-label">Prep Time (mins)</label>
+                    <input type="number" placeholder="e.g. 15" className="form-input-styled" value={prepTime} onChange={(e) => setPrepTime(e.target.value)} />
+                    {error.prepTime && <p className="text-red-500 text-xs mt-1">{error.prepTime}</p>}
+                </div>
+            </div>
+            <div className="mb-5">
+                <label className="form-label">Servings</label>
+                <input type="number" placeholder="e.g. 4" className="form-input-styled" style={{ width: '48%' }} value={Servings} onChange={(e) => setServings(e.target.value)} />
+                {error.Servings && <p className="text-red-500 text-xs mt-1">{error.Servings}</p>}
+            </div>
+            <div className="mb-5">
+                <label className="form-label">Recipe Image</label>
+                {imgSrc && (
+                    <div className="mb-3">
+                        <img src={imgSrc} alt="Preview" className="w-32 h-24 object-cover rounded-lg border border-[#fde8e8]" />
+                    </div>
+                )}
+                <div className="upload-area">
+                    <div className="text-3xl mb-2 text-[#fa1111]">📷</div>
+                    <p className="text-sm text-gray-500 mb-3">Click to select your recipe photo</p>
+                    <input
+                        id="image"
+                        type="file"
+                        className="hidden"
+                        onChange={(e) => setImage(e.target.files[0])}
+                    />
+                    <label htmlFor="image" className="bg-[#fde8e8] text-[#fa1111] px-4 py-2 rounded-full text-sm font-bold cursor-pointer hover:bg-red-100 transition-colors">
+                        Choose Image
+                    </label>
+                    {image && (
+                        <button
+                            onClick={submitImage}
+                            className="ml-3 bg-[#fa1111] text-white px-4 py-2 rounded-full text-sm font-bold hover:bg-red-700 transition-colors"
+                        >
+                            Upload!
+                        </button>
+                    )}
+                </div>
+            </div>
         </div>
-
-    )
+    );
 }
 
-export function PostDiv_3({ numOfIngredients, ingredients, setNumOfIngredients, setIngredients,error }) {
-
-
+export function PostDiv_3({ numOfIngredients, ingredients, setNumOfIngredients, setIngredients, error }) {
     const handleNumOfIngredientsChange = (e) => {
         const value = parseInt(e.target.value);
         setNumOfIngredients(value);
-
-        // Adjust the ingredients array size based on the number of ingredients
         const newIngredients = [...ingredients];
-        while (newIngredients.length < value) {
-            newIngredients.push({ quant: '', type: '', name: '' });
-        }
-        while (newIngredients.length > value) {
-            newIngredients.pop();
-        }
+        while (newIngredients.length < value) newIngredients.push({ quant: '', type: '', name: '' });
+        while (newIngredients.length > value) newIngredients.pop();
         setIngredients(newIngredients);
     };
 
@@ -88,143 +112,178 @@ export function PostDiv_3({ numOfIngredients, ingredients, setNumOfIngredients, 
     };
 
     return (
-        <div className="flex flex-col justify-center items-center w-8/12">
-            <div className="w-full flex flex-col justify-center items-center mb-4">
-                <h1 className="text-3xl font-bold tracking-wide mb-8">Ingredients</h1>
-                <label className="text-lg font-semibold mr-auto">
-                    Number of Ingredients
-                </label>
+        <div className="form-card">
+            <div className="form-section-title">🧂 Ingredients</div>
+            <div className="mb-5">
+                <label className="form-label">Number of Ingredients</label>
                 <input
                     type="number"
-                    placeholder="Enter the number of Ingredients your recipe needs?"
-                    className="w-full rounded-full p-4 bg-[#eef5f3] pt-2 pb-2 shadow-lg"
+                    placeholder="How many ingredients?"
+                    className="form-input-styled"
+                    style={{ width: '48%' }}
                     value={numOfIngredients}
                     onChange={handleNumOfIngredientsChange}
                 />
-                <div className="w-full mt-4">
-                    {ingredients.map((ingredient, index) => (
-                        <div key={index} className="w-full flex justify-center items-center mb-4">
-
+            </div>
+            <div className="mt-4">
+                {ingredients.map((ingredient, index) => (
+                    <div key={index} className="ingredient-row mb-3">
+                        <div>
+                            <label className="form-label">Quantity</label>
                             <input
                                 type="number"
-                                placeholder={`How much Ingredient ${index + 1} Quantity`}
-                                className="w-1/5 rounded-full rounded-r-none p-4 bg-[#eef5f3] pt-2 pb-2 shadow-lg border-r-0"
+                                placeholder="Amount"
+                                className="form-input-styled"
                                 value={ingredient.quant}
                                 onChange={(e) => handleIngredientChange(index, 'quant', e.target.value)}
                             />
-                            <select className="w-2/5 rounded-full rounded-l-none rounded-r-none p-4 bg-[#eef5f3] pt-2 pb-2 shadow-lg" value={ingredient.type} onChange={(e) => {
-                                handleIngredientChange(index, 'type', e.target.value)
-                            }}>
-                                <option value="x">Choose the type of quantity</option>
-                                <option value="tsp">tsp(Teaspoon)</option>
-                                <option value="Tbsp">Tbsp(Tablespoon)</option>
-                                <option value="g">g(Gram)</option>
-                                <option value="mg">mg(Milligram)</option>
-                                <option value="kg">kg(Kilogram)</option>
+                        </div>
+                        <div>
+                            <label className="form-label">Unit</label>
+                            <select
+                                className="form-input-styled"
+                                value={ingredient.type}
+                                onChange={(e) => handleIngredientChange(index, 'type', e.target.value)}
+                            >
+                                <option value="x">Select unit</option>
+                                <option value="tsp">tsp (Teaspoon)</option>
+                                <option value="Tbsp">Tbsp (Tablespoon)</option>
+                                <option value="g">g (Gram)</option>
+                                <option value="mg">mg (Milligram)</option>
+                                <option value="kg">kg (Kilogram)</option>
                                 <option value="Cup">Cup</option>
-                                <option value="ml">ml(Millilitre)</option>
-                                <option value="L">L(litre)</option>
+                                <option value="ml">ml (Millilitre)</option>
+                                <option value="L">L (Litre)</option>
                                 <option value="units">Units</option>
-                                <option value="pinch">pinch</option>
-                                <option value="few drops">few drops</option>
+                                <option value="pinch">Pinch</option>
+                                <option value="few drops">Few drops</option>
                             </select>
+                        </div>
+                        <div>
+                            <label className="form-label">Ingredient</label>
                             <input
                                 type="text"
-                                placeholder={`Ingredient ${index + 1} Name`}
-                                className=" w-2/5 rounded-full rounded-l-none p-4 bg-[#eef5f3] pt-2 pb-2 shadow-lg"
+                                placeholder={`Ingredient ${index + 1}`}
+                                className="form-input-styled"
                                 value={ingredient.name}
                                 onChange={(e) => handleIngredientChange(index, 'name', e.target.value)}
                             />
-
-
-
                         </div>
-                    ))}
-                </div>
+                    </div>
+                ))}
             </div>
         </div>
     );
 }
 
-export function PostDiv_4({ textareas, setTextareas,error }) {
-
-    const addTextarea = () => {
-        setTextareas([...textareas, '']);
-    };
+export function PostDiv_4({ textareas, setTextareas, error }) {
+    const addTextarea = () => setTextareas([...textareas, '']);
     const handleTextareaChange = (index, value) => {
         const newTextareas = [...textareas];
         newTextareas[index] = value;
         setTextareas(newTextareas);
     };
-    console.log(textareas)
 
     return (
-        <div className="flex flex-col justify-center items-center w-8/12">
-            <h1 className="text-2xl font-bold tracking-wide mb-8">Step-By-Step Process</h1>
+        <div className="form-card">
+            <div className="form-section-title">📋 Step-by-step Process</div>
             {textareas.map((textarea, index) => (
-                <div key={index} className="w-full flex justify-center items-center mb-4">
+                <div key={index} className="step-textarea-row">
+                    <div className="step-num-badge">{index + 1}</div>
                     <textarea
-                        className="w-4/6 p-4 bg-[#eef5f3] pt-2 pb-2 shadow-lg"
-                        placeholder={`Step ${index + 1}`}
+                        className="form-textarea-styled"
+                        placeholder={`Describe step ${index + 1}...`}
                         value={textarea}
                         onChange={(e) => handleTextareaChange(index, e.target.value)}
                     />
                 </div>
             ))}
             <button
-                className="border-2 ml-auto p-2 border-black"
+                className="mt-2 border-2 border-[#fa1111] text-[#fa1111] px-4 py-2 rounded-full text-sm font-bold hover:bg-[#fa1111] hover:text-white transition-colors"
                 onClick={addTextarea}
             >
-                Add another Step!
+                + Add another step
             </button>
         </div>
-
-    )
+    );
 }
 
-export function PostDiv_5({calories, setCalories,
-    totalFat, setTotalFat,
-    saturatedFat, setSaturatedFat,
-    cholesterol, setCholesterol,
-    sodium, setSodium,
-    totalCarbohydrate, setTotalCarbohydrate,
-    dietaryFiber, setDietaryFiber,
-    totalSugars, setTotalSugars,
-    protein, setProtein,
-    vitaminC, setVitaminC,
-    calcium, setCalcium,
-    iron, setIron,
-    potassium, setPotassium,error}){
-    return(
-    <div className="flex flex-col justify-center items-center w-8/12">
-    
-    <h1 className="text-2xl font-bold">Nutritional Fact Information</h1>
-
-    <div className="flex w-full">
-        <div className="left-div w-2/5 mr-auto flex flex-col justify-center items-center">
-        <NutritionInput error ={error.calories} type="text"  placeholder="Calories" label="Calories" value={calories} setValue={setCalories} />
-        <NutritionInput error={error.totalFat} type="text" placeholder="Total Fat(in g)" label="Total Fat" value={totalFat} setValue={setTotalFat} />
-        <NutritionInput error={error.saturatedFat} type="text" placeholder="Saturated Fat(in g)"  label="Saturated Fat" value={saturatedFat} setValue={setSaturatedFat} />
-        <NutritionInput error={error.cholesterol} type="text" placeholder="Cholesterol(in mg)" label="Cholesterol" value={cholesterol} setValue={setCholesterol} />
-        <NutritionInput error={error.sodium} type="text" placeholder="Sodium(in mg)" label="Sodium" value={sodium} setValue={setSodium} />
-        <NutritionInput error={error.potassium} type="text" placeholder="Potassium(in mg)" label="Potassium" value={potassium} setValue={setPotassium} />
-        <NutritionInput error={error.iron} type="text" placeholder="Iron(in mg)" label="Iron" value={iron} setValue={setIron} />
-
-    </div>
-    <div className="right-div w-2/5 ml-auto flex flex-col justify-center items-center ">
-    <NutritionInput error={error.calcium} type="text" placeholder="Calcium(in mg)" label="Calcium" value={calcium} setValue={setCalcium} />
-    <NutritionInput error={error.protein} type="text"  placeholder="Protein(in g)" label="Protein" value={protein} setValue={setProtein}/>
-    <NutritionInput error={error.totalCarbohydrate} type="text" placeholder="Total Carbohydrates(in g)" label="Total Carbohydrates" value={totalCarbohydrate} setValue={setTotalCarbohydrate} />
-    <NutritionInput error={error.dietaryFiber} type="text" placeholder="Dietary Fiber(in g)" label="Dietary Fiber" value={dietaryFiber} setValue={setDietaryFiber} />
-    <NutritionInput error={error.totalSugars }type="text" placeholder="Total Sugars(in g)" label="Total Sugars" value={totalSugars} setValue={setTotalSugars} />
-    <NutritionInput  error={error.vitaminC} type="text" placeholder="Vitamin C(in mcg)" label="Vitamin C" value={vitaminC} setValue={setVitaminC} />
-
-    </div>
-    </div>
-    
-
-
-</div>
-    )
-
+export function PostDiv_5({
+    calories, setCalories, totalFat, setTotalFat, saturatedFat, setSaturatedFat,
+    cholesterol, setCholesterol, sodium, setSodium, totalCarbohydrate, setTotalCarbohydrate,
+    dietaryFiber, setDietaryFiber, totalSugars, setTotalSugars, protein, setProtein,
+    vitaminC, setVitaminC, calcium, setCalcium, iron, setIron, potassium, setPotassium, error
+}) {
+    return (
+        <div className="form-card">
+            <div className="form-section-title">🥗 Nutritional Facts <span className="text-sm font-normal text-gray-400">(optional)</span></div>
+            <div className="grid grid-cols-2 gap-4">
+                <div>
+                    <label className="form-label">Calories</label>
+                    <input type="text" placeholder="e.g. 320" className="form-input-styled" value={calories} onChange={(e) => setCalories(e.target.value)} />
+                    {error.calories && <p className="text-red-500 text-xs mt-1">{error.calories}</p>}
+                </div>
+                <div>
+                    <label className="form-label">Protein (g)</label>
+                    <input type="text" placeholder="e.g. 28" className="form-input-styled" value={protein} onChange={(e) => setProtein(e.target.value)} />
+                    {error.protein && <p className="text-red-500 text-xs mt-1">{error.protein}</p>}
+                </div>
+                <div>
+                    <label className="form-label">Total Fat (g)</label>
+                    <input type="text" placeholder="e.g. 12" className="form-input-styled" value={totalFat} onChange={(e) => setTotalFat(e.target.value)} />
+                    {error.totalFat && <p className="text-red-500 text-xs mt-1">{error.totalFat}</p>}
+                </div>
+                <div>
+                    <label className="form-label">Saturated Fat (g)</label>
+                    <input type="text" placeholder="e.g. 4" className="form-input-styled" value={saturatedFat} onChange={(e) => setSaturatedFat(e.target.value)} />
+                    {error.saturatedFat && <p className="text-red-500 text-xs mt-1">{error.saturatedFat}</p>}
+                </div>
+                <div>
+                    <label className="form-label">Cholesterol (mg)</label>
+                    <input type="text" placeholder="e.g. 80" className="form-input-styled" value={cholesterol} onChange={(e) => setCholesterol(e.target.value)} />
+                    {error.cholesterol && <p className="text-red-500 text-xs mt-1">{error.cholesterol}</p>}
+                </div>
+                <div>
+                    <label className="form-label">Sodium (mg)</label>
+                    <input type="text" placeholder="e.g. 540" className="form-input-styled" value={sodium} onChange={(e) => setSodium(e.target.value)} />
+                    {error.sodium && <p className="text-red-500 text-xs mt-1">{error.sodium}</p>}
+                </div>
+                <div>
+                    <label className="form-label">Total Carbohydrates (g)</label>
+                    <input type="text" placeholder="e.g. 45" className="form-input-styled" value={totalCarbohydrate} onChange={(e) => setTotalCarbohydrate(e.target.value)} />
+                    {error.totalCarbohydrate && <p className="text-red-500 text-xs mt-1">{error.totalCarbohydrate}</p>}
+                </div>
+                <div>
+                    <label className="form-label">Dietary Fiber (g)</label>
+                    <input type="text" placeholder="e.g. 3" className="form-input-styled" value={dietaryFiber} onChange={(e) => setDietaryFiber(e.target.value)} />
+                    {error.dietaryFiber && <p className="text-red-500 text-xs mt-1">{error.dietaryFiber}</p>}
+                </div>
+                <div>
+                    <label className="form-label">Total Sugars (g)</label>
+                    <input type="text" placeholder="e.g. 6" className="form-input-styled" value={totalSugars} onChange={(e) => setTotalSugars(e.target.value)} />
+                    {error.totalSugars && <p className="text-red-500 text-xs mt-1">{error.totalSugars}</p>}
+                </div>
+                <div>
+                    <label className="form-label">Vitamin C (mcg)</label>
+                    <input type="text" placeholder="e.g. 15" className="form-input-styled" value={vitaminC} onChange={(e) => setVitaminC(e.target.value)} />
+                    {error.vitaminC && <p className="text-red-500 text-xs mt-1">{error.vitaminC}</p>}
+                </div>
+                <div>
+                    <label className="form-label">Calcium (mg)</label>
+                    <input type="text" placeholder="e.g. 200" className="form-input-styled" value={calcium} onChange={(e) => setCalcium(e.target.value)} />
+                    {error.calcium && <p className="text-red-500 text-xs mt-1">{error.calcium}</p>}
+                </div>
+                <div>
+                    <label className="form-label">Iron (mg)</label>
+                    <input type="text" placeholder="e.g. 8" className="form-input-styled" value={iron} onChange={(e) => setIron(e.target.value)} />
+                    {error.iron && <p className="text-red-500 text-xs mt-1">{error.iron}</p>}
+                </div>
+                <div>
+                    <label className="form-label">Potassium (mg)</label>
+                    <input type="text" placeholder="e.g. 400" className="form-input-styled" value={potassium} onChange={(e) => setPotassium(e.target.value)} />
+                    {error.potassium && <p className="text-red-500 text-xs mt-1">{error.potassium}</p>}
+                </div>
+            </div>
+        </div>
+    );
 }
