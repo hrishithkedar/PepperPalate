@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import BASE_URL from "../config";
 import RecipeCard from "./RecipeCard";
-
+import recipeService from "../services/recipeService";
 const TrendingRecipes = () => {
     const [trending, setTrending] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -10,11 +10,7 @@ const TrendingRecipes = () => {
         const fetchTrending = async () => {
             setLoading(true);
             try {
-                const res = await fetch(`${BASE_URL}/recipes/trending`, {
-                    method: "GET",
-                    headers: { "Content-Type": "application/json" }
-                });
-                const data = await res.json();
+                const data = await recipeService.getTrending();
                 if (!data.error) {
                     setTrending(data);
                 }

@@ -2,22 +2,14 @@ import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
 import BASE_URL from '../config';
-
+import recipeService from "../services/recipeService";
 const UserRecipeCard = ({ imgSrc, description, author, title, id, onDelete }) => {
     const url = `/recipes/${id}`;
     const updateUrl = `/recipes/${id}/update`;
     const { token } = useAuth();
 
     const OnDelete = async () => {
-        const dltUrl = `${BASE_URL}/recipes/${id}`;
-        const res = await fetch(dltUrl, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            }
-        });
-        const response = await res.json();
+        const response = await recipeService.deleteRecipe(token, id);
         if (response.error) {
             toast.error(response.error);
             return;

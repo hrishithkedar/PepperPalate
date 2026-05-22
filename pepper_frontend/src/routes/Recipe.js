@@ -9,6 +9,9 @@ import OgNav from "./OgNav";
 import { useAuth } from "../context/AuthContext";
 import BASE_URL from "../config";
 import toast from "react-hot-toast";
+import recipeService from "../services/recipeService";
+import reviewService from "../services/reviewService";
+
 const Recipe = () => {
     const [recipe, setRecipe] = useState({});
     const [nutrition, setNutrition] = useState({});
@@ -24,13 +27,9 @@ const Recipe = () => {
     const [loading, setLoading] = useState(true)
     useEffect(() => {
         const fetchData = async () => {
-            setLoading(true)
+            setLoading(true);
             try {
-                const response = await fetch(`${BASE_URL}/recipes/show/${recipeID}`, {
-                    method: "GET",
-                    headers: { "Content-Type": "application/json" }
-                });
-                const data = await response.json();
+                const data = await recipeService.getRecipeById(recipeID);
                 setRecipe(data);
                 setUsr(data.user?.username || "Unknown user");
                 setIngrArr(data.ingredients || []);
@@ -40,17 +39,13 @@ const Recipe = () => {
             } catch (error) {
                 console.error("Error fetching data:", error);
             } finally {
-                setLoading(false)
+                setLoading(false);
             }
         };
 
         const fetchRating = async () => {
             try {
-                const response = await fetch(`${BASE_URL}/recipes/${recipeID}/ratings`, {
-                    method: "GET",
-                    headers: { "Content-Type": "application/json" }
-                });
-                const data = await response.json();
+                const data = await recipeService.getRatings(recipeID);
                 setRatings(data);
             } catch (error) {
                 console.error("Error fetching ratings:", error);
@@ -68,24 +63,18 @@ const Recipe = () => {
     };
 
     const onPostReview = async () => {
-        const body = { rating, body: postBody };
-        const res = await fetch(`${BASE_URL}/review/${recipeID}`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
-            body: JSON.stringify(body)
-        });
-        const rev = await res.json();
+        const rev = await reviewService.postReview(token, recipeID, rating, postBody);
         if (rev.error) {
             toast.error(rev.error);
             return;
         }
         toast.success("Successfully Posted Review");
-        setReview(prev => [...prev, { ...rev, user: { username: user.username, profile: user.profile } }]);
+        setReview(prev => [...prev, {
+            ...rev,
+            user: { username: user.username, profile: user.profile }
+        }]);
         setPostBody("");
-        setRating(3)
+        setRating(3);
     };
     if (loading) return (
         <div className="flex flex-col">

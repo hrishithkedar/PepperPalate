@@ -6,6 +6,7 @@ import TextInput from "./TextInput";
 import "./login.css";
 import BASE_URL from "../config.js"
 import toast from "react-hot-toast";
+import authService from "../services/authService";
 const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -23,13 +24,7 @@ const Login = () => {
 
     const OnLogin = async () => {
         if (!validateForm()) return;
-
-        const res = await fetch(`${BASE_URL}/auth/login`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, password })
-        });
-        const response = await res.json();
+        const response = await authService.login(username, password);
         if (response.error) {
             toast.error(response.error);
             return;

@@ -4,6 +4,7 @@ import RecipeCard from "./RecipeCard";
 import OgNav from "./OgNav";
 import BASE_URL from '../config'
 import toast from "react-hot-toast";
+import recipeService from "../services/recipeService";
 const Search = () => {
     const [search, setSearch] = useState("");
     const [arr, setArr] = useState([]);
@@ -15,13 +16,9 @@ const Search = () => {
             return;
         }
         setLoading(true);
-        setHasSearched(true)
+        setHasSearched(true);
         try {
-            const res = await fetch(`${BASE_URL}/recipes/${search}`, {
-                method: "GET",
-                headers: { "Content-Type": "application/json" }
-            });
-            const response = await res.json();
+            const response = await recipeService.searchRecipes(search);
             if (response.error) {
                 toast.error(response.error);
                 setArr([]);

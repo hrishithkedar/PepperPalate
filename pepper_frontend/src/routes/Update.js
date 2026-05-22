@@ -7,7 +7,7 @@ import OgNav from "./OgNav";
 import useRecipeForm from "../hooks/useRecipeForm";
 import toast from "react-hot-toast";
 import BASE_URL from "../config";
-
+import recipeService from "../services/recipeService";
 const Update = () => {
     const navigate = useNavigate();
     const [index, setIndex] = useState(0);
@@ -48,11 +48,7 @@ const Update = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetch(`${BASE_URL}/recipes/show/${recipeID}`, {
-                    method: "GET",
-                    headers: { "Content-Type": "application/json" }
-                });
-                const data = await res.json();
+                const data = await recipeService.getRecipeById(recipeID);
                 prefillForm(data);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -67,15 +63,7 @@ const Update = () => {
             return;
         }
         const body = buildBody();
-        const res = await fetch(`${BASE_URL}/recipes/${recipeID}/update`, {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
-            body: JSON.stringify(body)
-        });
-        const response = await res.json();
+        const response = await recipeService.updateRecipe(token, recipeID, body);
         if (response.error) {
             toast.error(response.error);
             return;

@@ -5,6 +5,8 @@ import { useParams } from "react-router-dom";
 import UserRecipeCard from "./UserRecipeCard";
 import BASE_URL from "../config";
 import toast from "react-hot-toast";
+import recipeService from "../services/recipeService";
+import authService from "../services/authService";
 const Profile = () => {
     const { userID } = useParams();
     const { user, token, fetchUser } = useAuth();
@@ -50,20 +52,12 @@ const Profile = () => {
         fetchUser();
     };
 
-    const fetchRecipes = async () => {
-        setLoading(true)
-        const res = await fetch(`${BASE_URL}/recipes/userRecipes`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            }
-        });
-
-        const data = await res.json();
-        setArr(data || []);
-        setLoading(false)
-    };
+ const fetchRecipes = async () => {
+    setLoading(true);
+    const data = await recipeService.getUserRecipes(token);
+    setArr(data || []);
+    setLoading(false);
+};
 
     useEffect(() => {
         fetchRecipes();

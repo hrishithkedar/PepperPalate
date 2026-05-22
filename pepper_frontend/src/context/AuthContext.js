@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import BACK_URL from "../config";
 import toast from "react-hot-toast";
+import authService from "../services/authService";
 const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
@@ -16,14 +17,7 @@ export const AuthProvider = ({ children }) => {
             return;
         }
         try {
-            const res = await fetch(`${BACK_URL}/auth/getUser`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                }
-            });
-            const data = await res.json();
+            const data = await authService.getUser(token);
             setUser(data || null);
         } catch (error) {
             console.error("Error fetching user:", error);

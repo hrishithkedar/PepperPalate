@@ -7,7 +7,7 @@ import OgNav from "./OgNav";
 import useRecipeForm from "../hooks/useRecipeForm";
 import toast from "react-hot-toast";
 import BASE_URL from "../config";
-
+import recipeService from "../services/recipeService";
 const Post = () => {
     const navigate = useNavigate();
     const [index, setIndex] = useState(0);
@@ -61,15 +61,7 @@ const Post = () => {
             return;
         }
         const body = buildBody();
-        const res = await fetch(`${BASE_URL}/recipes`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
-            body: JSON.stringify(body)
-        });
-        const response = await res.json();
+        const response = await recipeService.postRecipe(token, body);
         if (response.error) {
             toast.error(response.error);
             return;

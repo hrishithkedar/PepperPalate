@@ -6,6 +6,7 @@ import { useAuth } from "../context/AuthContext";
 import { useEffect, useState } from "react";
 import BASE_URL from "../config";
 import TrendingRecipes from "./TrendingRecipes";
+import recipeService from "../services/recipeService";
 const Start_1 = () => {
     const [arr, setArr] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -16,11 +17,7 @@ const Start_1 = () => {
     useEffect(() => {
         const fetchRecent = async () => {
             setLoading(true);
-            const res = await fetch(`${BASE_URL}/recipes?page=${page}&limit=8`, {
-                method: "GET",
-                headers: { "Content-Type": "application/json" }
-            });
-            const data = await res.json();
+            const data = await recipeService.getRecipes(page);
             setArr(data.recipes || []);
             setTotalPages(data.totalPages || 1);
             setLoading(false);
